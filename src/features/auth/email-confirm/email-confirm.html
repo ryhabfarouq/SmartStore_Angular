@@ -1,0 +1,65 @@
+<div class="auth-card confirm-card animate-fade-in">
+  <div class="mb-4">
+    <div
+      class="confirm-icon rounded-circle d-flex align-items-center justify-content-center mx-auto"
+      style="
+        width: 80px;
+        height: 80px;
+        background: rgba(108, 92, 231, 0.15);
+        border: 1px solid rgba(162, 155, 254, 0.2);
+        box-shadow: 0 0 25px rgba(108, 92, 231, 0.25);
+      "
+    >
+      <i class="fas fa-paper-plane fa-2x text-primary-light"></i>
+    </div>
+  </div>
+
+  <h2 class="fs-3 fw-bold text-white mb-3 text-center">Verify Your Email Address</h2>
+
+  <p class="text-white-50 mb-4 text-center small">
+    We've sent a verification link to your registered email address:<br />
+    <strong class="text-white d-block mt-1">{{ currentUser()?.email || 'your email' }}</strong>
+  </p>
+
+  <div
+    class="alert border border-info border-opacity-25 bg-info bg-opacity-10 text-white-50 text-start d-flex gap-3 p-3 rounded-3 mb-4"
+  >
+    <i class="fas fa-info-circle text-info fs-5 mt-1 flex-shrink-0"></i>
+    <span class="small">
+      Please check your inbox and click the verification link to unlock all SmartStore features like
+      purchasing products, maintaining a wishlist, and tracking orders.
+    </span>
+  </div>
+
+  <div class="d-flex flex-column gap-2 mb-4">
+    <button
+      (click)="continueShopping()"
+      class="btn btn-auth-gradient w-100 d-flex align-items-center justify-content-center gap-2 fw-bold"
+    >
+      <i class="fas fa-shopping-bag"></i>Continue Shopping
+    </button>
+
+    <button
+      (click)="onResendEmail()"
+      [disabled]="resending()"
+      class="btn btn-outline-light py-2.5 w-100 d-flex align-items-center justify-content-center gap-2"
+      style="border-color: rgba(255, 255, 255, 0.15)"
+    >
+      @if (resending()) {
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Resending Link...
+      } @else {
+        <i class="fas fa-redo-alt"></i>Resend Verification Email
+      }
+    </button>
+  </div>
+
+  <p class="text-center text-white-50 small mb-0">
+    Need help?
+    <a
+      href="mailto:support@SmartStore.com"
+      class="text-primary-light text-decoration-none hover-glow fw-semibold"
+      >Contact Support</a
+    >
+  </p>
+</div>

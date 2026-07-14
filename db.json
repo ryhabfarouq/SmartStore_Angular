@@ -1,0 +1,1168 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Ryhab Farouq",
+      "email": "ryhabfarouq73@gmail.com",
+      "phone": "+01112238305",
+      "password": "Admin@123",
+      "role": "admin",
+      "status": "active",
+      "avatar": "https://ui-avatars.com/api/?name=Ryhab+Farouq&background=6c5ce7&color=fff",
+      "address": {
+        "street": "cairo",
+        "city": "cairo",
+        "state": "cairo",
+        "zip": "31511",
+        "country": "Egypt"
+      },
+      "createdAt": "2026-03-03T00:00:00.000Z",
+      "emailVerified": true,
+      "wallet": 15000
+    },
+    {
+      "id": 2,
+      "name": "Nour Mohamed",
+      "email": "nour.mohamed@gmail.com",
+      "phone": "01012223344",
+      "password": "Seller@123",
+      "role": "seller",
+      "status": "active",
+      "avatar": "https://ui-avatars.com/api/?name=Nour+Mohamed&background=00b894&color=fff",
+      "address": {
+        "street": "شارع البحر",
+        "city": "Giza",
+        "state": "Giza",
+        "zip": "31511",
+        "country": "Egypt"
+      },
+      "createdAt": "2026-02-02T00:00:00.000Z",
+      "emailVerified": true,
+      "wallet": 32000,
+      "sellerId": 1
+    },
+    {
+      "id": 3,
+      "name": "Mariam Tarek",
+      "email": "mariam.tarek@gmail.com",
+      "phone": "01000025001",
+      "password": "Customer@123",
+      "role": "customer",
+      "status": "active",
+      "avatar": "https://ui-avatars.com/api/?name=Mariam+Tarek&background=fd79a8&color=fff",
+      "address": {
+        "street": "شارع خالد بن الوليد",
+        "city": "Alexandria",
+        "state": "Alexandria",
+        "zip": "21500",
+        "country": "Egypt"
+      },
+      "createdAt": "2024-02-01T00:00:00.000Z",
+      "emailVerified": true,
+      "wallet": 4200
+    },
+    {
+      "id": 4,
+      "name": "Omar Khaled",
+      "email": "omar.khaled@gmail.com",
+      "phone": "01127774455",
+      "password": "Omar@123",
+      "role": "customer",
+      "status": "active",
+      "avatar": "https://ui-avatars.com/api/?name=Omar+Khaled&background=0984e3&color=fff",
+      "address": {
+        "street": "شارع الجمهورية",
+        "city": "Mansoura",
+        "state": "Dakahlia",
+        "zip": "35511",
+        "country": "Egypt"
+      },
+      "createdAt": "2024-02-20T00:00:00.000Z",
+      "emailVerified": true,
+      "wallet": 0
+    },
+    {
+      "id": 5,
+      "name": "Salma Nabil",
+      "email": "salma.nabil@gmail.com",
+      "phone": "01208881122",
+      "password": "Salma@123",
+      "role": "seller",
+      "status": "pending",
+      "avatar": "https://ui-avatars.com/api/?name=Salma+Nabil&background=e17055&color=fff",
+      "address": {
+        "street": "شارع الهرم",
+        "city": "Giza",
+        "state": "Giza",
+        "zip": "12511",
+        "country": "Egypt"
+      },
+      "createdAt": "2024-03-01T00:00:00.000Z",
+      "emailVerified": false,
+      "wallet": 0,
+      "sellerId": 2
+    },
+    {
+      "id": 6,
+      "name": "Youssef Hany",
+      "email": "youssef.hany@gmail.com",
+      "phone": "01153332211",
+      "password": "Pa$$w0rd!",
+      "role": "customer",
+      "status": "active",
+      "avatar": "https://ui-avatars.com/api/?name=Youssef+Hany&background=6c5ce7&color=fff",
+      "address": {
+        "street": "شارع النادي",
+        "city": "Tanta",
+        "state": "Gharbia",
+        "zip": "31511",
+        "country": "Egypt"
+      },
+      "createdAt": "2026-05-21T14:36:02.464Z",
+      "emailVerified": false,
+      "wallet": 500
+    },
+    {
+      "id": 7,
+      "name": "Nourhan Samir",
+      "email": "nourhan.samir@gmail.com",
+      "phone": "01024447788",
+      "password": "Pa$$w0rd!",
+      "role": "seller",
+      "status": "active",
+      "avatar": "https://ui-avatars.com/api/?name=Nourhan+Samir&background=6c5ce7&color=fff",
+      "address": {
+        "street": "شارع كورنيش النيل",
+        "city": "Aswan",
+        "state": "Aswan",
+        "zip": "81511",
+        "country": "Egypt"
+      },
+      "createdAt": "2026-05-21T14:37:38.075Z",
+      "emailVerified": false,
+      "wallet": 8000
+    },
+    {
+      "name": "Ziad hany",
+      "email": "ziadhani64@gmail.com",
+      "phone": "01554530991",
+      "role": "customer",
+      "password": "Zoz332003##",
+      "status": "active",
+      "avatar": "https://ui-avatars.com/api/?name=Ziad%20hany&background=6c5ce7&color=fff",
+      "address": {
+        "street": "",
+        "city": "",
+        "state": "",
+        "zip": "",
+        "country": ""
+      },
+      "createdAt": "2026-06-01T17:41:46.674Z",
+      "emailVerified": false,
+      "wallet": 0,
+      "id": 8
+    },
+    {
+      "name": "Ryhab Farouq",
+      "email": "ryhabfarouq73@gmail.com",
+      "phone": "01029573880",
+      "role": "seller",
+      "password": "Rh_12345",
+      "status": "active",
+      "avatar": "https://ui-avatars.com/api/?name=Ryhab%20Farouq&background=6c5ce7&color=fff",
+      "address": {
+        "street": "",
+        "city": "",
+        "state": "",
+        "zip": "",
+        "country": ""
+      },
+      "createdAt": "2026-07-06T09:31:47.530Z",
+      "emailVerified": false,
+      "wallet": 0,
+      "id": 9
+    }
+  ],
+  "sellers": [
+    {
+      "id": 1,
+      "userId": 2,
+      "storeName": "Tech Egypt Store",
+      "description": "Premium electronics and mobile accessories in Egypt",
+      "logo": "https://ui-avatars.com/api/?name=Tech+Egypt+Store&background=6c5ce7&color=fff&size=128",
+      "banner": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",
+      "rating": 4.7,
+      "totalSales": 1523,
+      "status": "approved",
+      "joinedAt": "2024-01-15T00:00:00.000Z",
+      "contactEmail": "seller@shopwave.eg",
+      "phone": "+20 101 222 3344",
+      "address": {
+        "street": "22 عباس العقاد",
+        "city": "Nasr City",
+        "state": "Cairo",
+        "zip": "11765",
+        "country": "Egypt"
+      }
+    },
+    {
+      "id": 2,
+      "userId": 5,
+      "storeName": "Salma Fashion Hub",
+      "description": "Modern fashion, handbags, and accessories",
+      "logo": "https://ui-avatars.com/api/?name=Salma+Fashion+Hub&background=e17055&color=fff&size=128",
+      "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80",
+      "rating": 0,
+      "totalSales": 0,
+      "status": "pending",
+      "joinedAt": "2024-03-01T00:00:00.000Z",
+      "contactEmail": "salma.vendor@gmail.com",
+      "phone": "+20 120 888 1122",
+      "address": {
+        "street": "5 البحر الأعظم",
+        "city": "Giza",
+        "state": "Giza",
+        "zip": "12511",
+        "country": "Egypt"
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Electronics",
+      "slug": "electronics",
+      "icon": "fa-microchip",
+      "color": "#6c5ce7",
+      "productCount": 8,
+      "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80"
+    },
+    {
+      "id": 2,
+      "name": "Beauty",
+      "slug": "beauty",
+      "icon": "fa-spa",
+      "color": "#fd79a8",
+      "productCount": 5,
+      "image": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400&q=80"
+    },
+    {
+      "id": 3,
+      "name": "Fragrances",
+      "slug": "fragrances",
+      "icon": "fa-wind",
+      "color": "#a29bfe",
+      "productCount": 5,
+      "image": "https://images.unsplash.com/photo-1541643600914-78b084683702?w=400&q=80"
+    },
+    {
+      "id": 4,
+      "name": "Furniture",
+      "slug": "furniture",
+      "icon": "fa-couch",
+      "color": "#00b894",
+      "productCount": 5,
+      "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80"
+    },
+    {
+      "id": 5,
+      "name": "Groceries",
+      "slug": "groceries",
+      "icon": "fa-shopping-basket",
+      "color": "#fdcb6e",
+      "productCount": 7,
+      "image": "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80"
+    },
+    {
+      "id": 6,
+      "name": "Home Decor",
+      "slug": "home-decoration",
+      "icon": "fa-home",
+      "color": "#e17055",
+      "productCount": 4,
+      "image": "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=400&q=80"
+    },
+    {
+      "id": 7,
+      "name": "Sunglasses",
+      "slug": "sunglasses",
+      "icon": "fa-glasses",
+      "color": "#0984e3",
+      "productCount": 4,
+      "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&q=80"
+    },
+    {
+      "id": 8,
+      "name": "Automotive",
+      "slug": "vehicle",
+      "icon": "fa-car",
+      "color": "#636e72",
+      "productCount": 3,
+      "image": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&q=80"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "title": "Essence Mascara Lash Princess",
+      "description": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
+      "category": "beauty",
+      "categoryId": 2,
+      "price": 9.99,
+      "discountPercentage": 10.48,
+      "rating": 4.5,
+      "stock": 99,
+      "brand": "Essence",
+      "sellerId": 1,
+      "tags": [
+        "beauty",
+        "mascara"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
+      "isFeatured": true,
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "Eyeshadow Palette with Mirror",
+      "description": "The Eyeshadow Palette with Mirror offers a versatile range of eyeshadow shades for creating stunning eye looks. With a built-in mirror, it's convenient for on-the-go makeup application.",
+      "category": "beauty",
+      "categoryId": 2,
+      "price": 19.99,
+      "discountPercentage": 18.19,
+      "rating": 4.2,
+      "stock": 34,
+      "brand": "Glamour Beauty",
+      "sellerId": 1,
+      "tags": [
+        "beauty",
+        "eyeshadow"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/eyeshadow-palette-with-mirror/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/eyeshadow-palette-with-mirror/thumbnail.webp",
+      "isFeatured": false,
+      "createdAt": "2024-01-02T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "title": "Powder Canister",
+      "description": "The Powder Canister is a finely milled setting powder designed to set makeup and control shine. Lightweight and translucent formula for a smooth matte finish.",
+      "category": "beauty",
+      "categoryId": 2,
+      "price": 14.99,
+      "discountPercentage": 9.84,
+      "rating": 4.6,
+      "stock": 89,
+      "brand": "Velvet Touch",
+      "sellerId": 1,
+      "tags": [
+        "beauty",
+        "face powder"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/powder-canister/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/powder-canister/thumbnail.webp",
+      "isFeatured": false,
+      "createdAt": "2024-01-03T00:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "title": "Red Lipstick",
+      "description": "The Red Lipstick is a classic and bold choice for adding a pop of color to your lips. Creamy and pigmented formula for a vibrant and long-lasting finish.",
+      "category": "beauty",
+      "categoryId": 2,
+      "price": 12.99,
+      "discountPercentage": 12.16,
+      "rating": 4.4,
+      "stock": 91,
+      "brand": "Chic Cosmetics",
+      "sellerId": 1,
+      "tags": [
+        "beauty",
+        "lipstick"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/red-lipstick/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/red-lipstick/thumbnail.webp",
+      "isFeatured": true,
+      "createdAt": "2024-01-04T00:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "title": "Red Nail Polish",
+      "description": "The Red Nail Polish offers a rich and glossy red hue for vibrant and polished nails. Quick-drying formula for a salon-quality finish at home.",
+      "category": "beauty",
+      "categoryId": 2,
+      "price": 8.99,
+      "discountPercentage": 11.44,
+      "rating": 4.3,
+      "stock": 79,
+      "brand": "Nail Couture",
+      "sellerId": 1,
+      "tags": [
+        "beauty",
+        "nail polish"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/red-nail-polish/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/red-nail-polish/thumbnail.webp",
+      "isFeatured": false,
+      "createdAt": "2024-01-05T00:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "title": "Calvin Klein CK One",
+      "description": "CK One by Calvin Klein is a classic unisex fragrance, known for its fresh and clean scent. A versatile fragrance suitable for everyday wear.",
+      "category": "fragrances",
+      "categoryId": 3,
+      "price": 49.99,
+      "discountPercentage": 1.89,
+      "rating": 4.4,
+      "stock": 29,
+      "brand": "Calvin Klein",
+      "sellerId": 1,
+      "tags": [
+        "fragrances",
+        "perfumes"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/thumbnail.webp",
+      "isFeatured": true,
+      "createdAt": "2024-01-06T00:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "title": "Chanel Coco Noir Eau De",
+      "description": "Coco Noir by Chanel is an elegant and mysterious fragrance, featuring notes of grapefruit, rose, and sandalwood. Perfect for evening occasions.",
+      "category": "fragrances",
+      "categoryId": 3,
+      "price": 129.99,
+      "discountPercentage": 16.51,
+      "rating": 4.3,
+      "stock": 58,
+      "brand": "Chanel",
+      "sellerId": 1,
+      "tags": [
+        "fragrances",
+        "perfumes"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/thumbnail.webp",
+      "isFeatured": false,
+      "createdAt": "2024-01-07T00:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "title": "Dior J'adore",
+      "description": "J'adore by Dior is a luxurious and floral fragrance, known for its blend of ylang-ylang, rose, and jasmine. Embodies femininity and sophistication.",
+      "category": "fragrances",
+      "categoryId": 3,
+      "price": 89.99,
+      "discountPercentage": 14.72,
+      "rating": 3.8,
+      "stock": 98,
+      "brand": "Dior",
+      "sellerId": 1,
+      "tags": [
+        "fragrances",
+        "perfumes"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/thumbnail.webp",
+      "isFeatured": false,
+      "createdAt": "2024-01-08T00:00:00.000Z"
+    },
+    {
+      "id": 9,
+      "title": "Annibale Colombo Bed",
+      "description": "The Annibale Colombo Bed is a luxurious and elegant bed frame, crafted with high-quality materials for a comfortable and stylish bedroom.",
+      "category": "furniture",
+      "categoryId": 4,
+      "price": 1899.99,
+      "discountPercentage": 8.57,
+      "rating": 4.8,
+      "stock": 8,
+      "brand": "Annibale Colombo",
+      "sellerId": 1,
+      "tags": [
+        "furniture",
+        "beds"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/thumbnail.webp",
+      "isFeatured": true,
+      "createdAt": "2024-01-09T00:00:00.000Z"
+    },
+    {
+      "id": 10,
+      "title": "Annibale Colombo Sofa",
+      "description": "The Annibale Colombo Sofa is a sophisticated and comfortable seating option, featuring exquisite design and premium upholstery for your living room.",
+      "category": "furniture",
+      "categoryId": 4,
+      "price": 2499.99,
+      "discountPercentage": 14.4,
+      "rating": 3.9,
+      "stock": 60,
+      "brand": "Annibale Colombo",
+      "sellerId": 1,
+      "tags": [
+        "furniture",
+        "sofas"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/thumbnail.webp",
+      "isFeatured": false,
+      "createdAt": "2024-01-10T00:00:00.000Z"
+    },
+    {
+      "id": 11,
+      "title": "Apple MacBook Pro 14",
+      "description": "The Apple MacBook Pro 14-inch features the powerful M3 Pro chip with a stunning Liquid Retina XDR display. Perfect for professionals who demand the best.",
+      "category": "electronics",
+      "categoryId": 1,
+      "price": 1999.99,
+      "discountPercentage": 5,
+      "rating": 4.9,
+      "stock": 15,
+      "brand": "Apple",
+      "sellerId": 1,
+      "tags": [
+        "electronics",
+        "laptop",
+        "apple"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/thumbnail.webp",
+      "isFeatured": true,
+      "createdAt": "2024-01-11T00:00:00.000Z"
+    },
+    {
+      "id": 12,
+      "title": "Samsung Galaxy S23 Ultra",
+      "description": "The Samsung Galaxy S23 Ultra is a flagship smartphone with a 200MP camera, S Pen integration, and a powerful Snapdragon 8 Gen 2 processor.",
+      "category": "electronics",
+      "categoryId": 1,
+      "price": 1199.99,
+      "discountPercentage": 8,
+      "rating": 4.7,
+      "stock": 40,
+      "brand": "Samsung",
+      "sellerId": 1,
+      "tags": [
+        "electronics",
+        "smartphone",
+        "samsung"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mobile-accessories/iphone-13-back-glass/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/mobile-accessories/iphone-13-back-glass/thumbnail.webp",
+      "isFeatured": true,
+      "createdAt": "2024-01-12T00:00:00.000Z"
+    },
+    {
+      "id": 13,
+      "title": "Sony WH-1000XM5 Headphones",
+      "description": "Industry-leading noise cancelling headphones with exceptional sound quality, 30-hour battery life, and comfortable over-ear design.",
+      "category": "electronics",
+      "categoryId": 1,
+      "price": 349.99,
+      "discountPercentage": 12,
+      "rating": 4.8,
+      "stock": 55,
+      "brand": "Sony",
+      "sellerId": 1,
+      "tags": [
+        "electronics",
+        "headphones",
+        "audio"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods-max-silver/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods-max-silver/thumbnail.webp",
+      "isFeatured": true,
+      "createdAt": "2024-01-13T00:00:00.000Z"
+    },
+    {
+      "id": 14,
+      "title": "LG 4K OLED Smart TV 55\"",
+      "description": "Experience stunning picture quality with LG's OLED technology. Perfect blacks, infinite contrast, and Dolby Vision for the ultimate cinematic experience.",
+      "category": "electronics",
+      "categoryId": 1,
+      "price": 1299.99,
+      "discountPercentage": 10,
+      "rating": 4.6,
+      "stock": 20,
+      "brand": "LG",
+      "sellerId": 1,
+      "tags": [
+        "electronics",
+        "tv",
+        "oled"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/televisions/samsung-49-inch-qled-tv/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/televisions/samsung-49-inch-qled-tv/thumbnail.webp",
+      "isFeatured": false,
+      "createdAt": "2024-01-14T00:00:00.000Z"
+    },
+    {
+      "id": 15,
+      "title": "Logitech MX Master 3S Mouse",
+      "description": "The ultimate mouse for productivity. MagSpeed scroll wheel, ergonomic design, and 8000 DPI precision tracking on any surface.",
+      "category": "electronics",
+      "categoryId": 1,
+      "price": 99.99,
+      "discountPercentage": 5,
+      "rating": 4.7,
+      "stock": 120,
+      "brand": "Logitech",
+      "sellerId": 1,
+      "tags": [
+        "electronics",
+        "mouse",
+        "peripheral"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/computer-accessories/apple-magic-mouse/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/computer-accessories/apple-magic-mouse/thumbnail.webp",
+      "isFeatured": false,
+      "createdAt": "2024-01-15T00:00:00.000Z"
+    },
+    {
+      "id": 16,
+      "title": "Gucci Bloom Eau de Parfum",
+      "description": "Gucci Bloom by Gucci is a floral and captivating fragrance, with notes of tuberose, jasmine, and Rangoon creeper. A modern and romantic scent.",
+      "category": "fragrances",
+      "categoryId": 3,
+      "price": 79.99,
+      "discountPercentage": 14.39,
+      "rating": 4.1,
+      "stock": 91,
+      "brand": "Gucci",
+      "sellerId": 1,
+      "tags": [
+        "fragrances",
+        "perfumes"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/fragrances/gucci-bloom-eau-de/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/gucci-bloom-eau-de/thumbnail.webp",
+      "isFeatured": false,
+      "createdAt": "2024-01-16T00:00:00.000Z"
+    },
+    {
+      "id": 17,
+      "title": "Organic Green Tea (100 bags)",
+      "description": "Premium organic green tea sourced from the finest gardens. Rich in antioxidants and natural goodness. Smooth taste with a refreshing finish.",
+      "category": "groceries",
+      "categoryId": 5,
+      "price": 12.99,
+      "discountPercentage": 5,
+      "rating": 4.5,
+      "stock": 200,
+      "brand": "Nature's Best",
+      "sellerId": 1,
+      "tags": [
+        "groceries",
+        "tea",
+        "organic"
+      ],
+      "availabilityStatus": "In Stock",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/groceries/green-tea/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/green-tea/thumbnail.webp",
+      "isFeatured": false,
+      "createdAt": "2024-01-17T00:00:00.000Z"
+    }
+  ],
+  "cart": [
+    {
+      "id": 1,
+      "userId": 3,
+      "productId": 11,
+      "quantity": 1,
+      "addedAt": "2024-03-01T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "productId": 4,
+      "quantity": 2,
+      "addedAt": "2024-03-01T11:00:00.000Z"
+    },
+    {
+      "userId": 2,
+      "productId": 13,
+      "quantity": 1,
+      "addedAt": "2026-05-21T21:24:34.939Z",
+      "id": 4
+    },
+    {
+      "userId": 2,
+      "productId": 12,
+      "quantity": 1,
+      "addedAt": "2026-05-21T21:24:36.069Z",
+      "id": 5
+    }
+  ],
+  "wishlist": [
+    {
+      "id": 1,
+      "userId": 3,
+      "productId": 13,
+      "addedAt": "2024-03-01T09:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "productId": 6,
+      "addedAt": "2024-03-01T09:30:00.000Z"
+    },
+    {
+      "userId": 2,
+      "productId": 17,
+      "addedAt": "2026-05-21T14:50:32.081Z",
+      "id": 5
+    },
+    {
+      "userId": 8,
+      "productId": 16,
+      "addedAt": "2026-06-01T19:26:08.699Z",
+      "id": 6
+    },
+    {
+      "userId": 8,
+      "productId": 11,
+      "addedAt": "2026-06-01T19:26:11.011Z",
+      "id": 7
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 3,
+      "orderNumber": "ORD-2024-001",
+      "items": [
+        {
+          "productId": 4,
+          "title": "Red Lipstick",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/red-lipstick/thumbnail.webp",
+          "quantity": 2,
+          "price": 12.99,
+          "subtotal": 25.98
+        },
+        {
+          "productId": 6,
+          "title": "Calvin Klein CK One",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/thumbnail.webp",
+          "quantity": 1,
+          "price": 49.99,
+          "subtotal": 49.99
+        }
+      ],
+      "shippingAddress": {
+        "street": "789 Customer Blvd",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60601",
+        "country": "USA"
+      },
+      "paymentMethod": "credit_card",
+      "paymentStatus": "paid",
+      "status": "delivered",
+      "subtotal": 75.97,
+      "shippingCost": 9.99,
+      "tax": 6.84,
+      "discount": 0,
+      "total": 92.8,
+      "trackingNumber": "TRK123456789",
+      "notes": "",
+      "createdAt": "2024-02-15T10:00:00.000Z",
+      "updatedAt": "2024-02-20T14:00:00.000Z",
+      "timeline": [
+        {
+          "status": "placed",
+          "timestamp": "2024-02-15T10:00:00.000Z",
+          "description": "Order placed successfully"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2024-02-15T11:00:00.000Z",
+          "description": "Order confirmed"
+        },
+        {
+          "status": "shipped",
+          "timestamp": "2024-02-17T09:00:00.000Z",
+          "description": "Shipped via FedEx"
+        },
+        {
+          "status": "delivered",
+          "timestamp": "2024-02-20T14:00:00.000Z",
+          "description": "Delivered to address"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "orderNumber": "ORD-2024-002",
+      "items": [
+        {
+          "productId": 13,
+          "title": "Sony WH-1000XM5 Headphones",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods-max-silver/thumbnail.webp",
+          "quantity": 1,
+          "price": 349.99,
+          "subtotal": 349.99
+        }
+      ],
+      "shippingAddress": {
+        "street": "789 Customer Blvd",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60601",
+        "country": "USA"
+      },
+      "paymentMethod": "paypal",
+      "paymentStatus": "paid",
+      "status": "shipped",
+      "subtotal": 349.99,
+      "shippingCost": 0,
+      "tax": 31.5,
+      "discount": 42,
+      "total": 339.49,
+      "trackingNumber": "TRK987654321",
+      "notes": "Leave at door",
+      "createdAt": "2024-03-01T08:00:00.000Z",
+      "updatedAt": "2024-03-03T12:00:00.000Z",
+      "timeline": [
+        {
+          "status": "placed",
+          "timestamp": "2024-03-01T08:00:00.000Z",
+          "description": "Order placed successfully"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2024-03-01T09:00:00.000Z",
+          "description": "Order confirmed"
+        },
+        {
+          "status": "shipped",
+          "timestamp": "2024-03-03T12:00:00.000Z",
+          "description": "Shipped via UPS"
+        }
+      ]
+    },
+    {
+      "userId": 6,
+      "items": [
+        {
+          "productId": 19,
+          "title": "Ray-Ban Aviator Sunglasses",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/sunglasses/eye-gear-sport-sunglasses/thumbnail.webp",
+          "quantity": 1,
+          "price": 159.99,
+          "subtotal": 159.99
+        },
+        {
+          "productId": 18,
+          "title": "Extra Virgin Olive Oil 1L",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/olive-oil/thumbnail.webp",
+          "quantity": 1,
+          "price": 15.99,
+          "subtotal": 15.99
+        },
+        {
+          "productId": 17,
+          "title": "Organic Green Tea (100 bags)",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/green-tea/thumbnail.webp",
+          "quantity": 1,
+          "price": 12.99,
+          "subtotal": 12.99
+        }
+      ],
+      "shippingAddress": {
+        "street": "Amet et sequi id a",
+        "city": "Ab pariatur Omnis d",
+        "state": "Expedita est tempor",
+        "zip": "10001",
+        "country": "Sunt nisi adipisicin"
+      },
+      "paymentMethod": "cash_on_delivery",
+      "orderNumber": "ORD-1779374200534",
+      "paymentStatus": "pending",
+      "status": "placed",
+      "subtotal": 188.97000000000003,
+      "shippingCost": 0,
+      "tax": 17.0073,
+      "discount": 0,
+      "total": 205.9773,
+      "trackingNumber": "",
+      "notes": "",
+      "createdAt": "2026-05-21T14:36:40.534Z",
+      "updatedAt": "2026-05-21T14:36:40.534Z",
+      "timeline": [
+        {
+          "status": "placed",
+          "timestamp": "2026-05-21T14:36:40.534Z",
+          "description": "Order placed successfully"
+        }
+      ],
+      "id": 3
+    },
+    {
+      "userId": 8,
+      "items": [
+        {
+          "productId": 11,
+          "title": "Apple MacBook Pro 14",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/thumbnail.webp",
+          "quantity": 1,
+          "price": 1999.99,
+          "subtotal": 1999.99
+        },
+        {
+          "productId": 10,
+          "title": "Annibale Colombo Sofa",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/thumbnail.webp",
+          "quantity": 1,
+          "price": 2499.99,
+          "subtotal": 2499.99
+        }
+      ],
+      "shippingAddress": {
+        "street": "Et est sunt deserunt",
+        "city": "Ullam dolore sed dic",
+        "state": "Sit deleniti est te",
+        "zip": "10000",
+        "country": "Fugit non dolor und"
+      },
+      "paymentMethod": "credit_card",
+      "orderNumber": "ORD-1780342276339",
+      "paymentStatus": "pending",
+      "status": "placed",
+      "subtotal": 4499.98,
+      "shippingCost": 0,
+      "tax": 404.99819999999994,
+      "discount": 0,
+      "total": 4904.9782,
+      "trackingNumber": "",
+      "notes": "",
+      "createdAt": "2026-06-01T19:31:16.339Z",
+      "updatedAt": "2026-06-01T19:31:16.339Z",
+      "timeline": [
+        {
+          "status": "placed",
+          "timestamp": "2026-06-01T19:31:16.339Z",
+          "description": "Order placed successfully"
+        }
+      ],
+      "id": 4
+    },
+    {
+      "userId": 1,
+      "items": [
+        {
+          "productId": 18,
+          "title": "Extra Virgin Olive Oil 1L",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/olive-oil/thumbnail.webp",
+          "quantity": 3,
+          "price": 15.99,
+          "subtotal": 47.97
+        }
+      ],
+      "shippingAddress": {
+        "street": "Tanta City",
+        "city": "Tanta",
+        "state": "Gharbia",
+        "zip": "31511",
+        "country": "Egypt"
+      },
+      "paymentMethod": "paypal",
+      "orderNumber": "ORD-1783323437072",
+      "paymentStatus": "pending",
+      "status": "cancelled",
+      "subtotal": 47.97,
+      "shippingCost": 9.99,
+      "tax": 4.3172999999999995,
+      "discount": 0,
+      "total": 62.2773,
+      "trackingNumber": "",
+      "notes": "",
+      "createdAt": "2026-07-06T07:37:17.072Z",
+      "updatedAt": "2026-07-06T07:37:27.544Z",
+      "timeline": [
+        {
+          "status": "placed",
+          "timestamp": "2026-07-06T07:37:17.072Z",
+          "description": "Order placed successfully"
+        }
+      ],
+      "id": 5
+    }
+  ],
+  "payments": [
+    {
+      "id": 1,
+      "orderId": 1,
+      "userId": 3,
+      "amount": 92.8,
+      "method": "credit_card",
+      "status": "success",
+      "transactionId": "TXN-CC-001-2024",
+      "cardLast4": "4242",
+      "createdAt": "2024-02-15T10:05:00.000Z"
+    },
+    {
+      "id": 2,
+      "orderId": 2,
+      "userId": 3,
+      "amount": 339.49,
+      "method": "paypal",
+      "status": "success",
+      "transactionId": "TXN-PP-002-2024",
+      "paypalEmail": "customer@shopwave.com",
+      "createdAt": "2024-03-01T08:05:00.000Z"
+    },
+    {
+      "orderId": 3,
+      "userId": 6,
+      "amount": 205.9773,
+      "method": "cash_on_delivery",
+      "status": "success",
+      "transactionId": "TXN-CASH_ON_DELIVERY-1779374200567",
+      "createdAt": "2026-05-21T14:36:40.567Z",
+      "id": 3
+    },
+    {
+      "orderId": 4,
+      "userId": 8,
+      "amount": 4904.9782,
+      "method": "credit_card",
+      "status": "success",
+      "transactionId": "TXN-CREDIT_CARD-1780342276410",
+      "cardLast4": "4242",
+      "createdAt": "2026-06-01T19:31:16.410Z",
+      "id": 4
+    },
+    {
+      "orderId": 5,
+      "userId": 1,
+      "amount": 62.2773,
+      "method": "paypal",
+      "status": "success",
+      "transactionId": "TXN-PAYPAL-1783323437133",
+      "paypalEmail": "ryhabfarouq73@gmail.com",
+      "createdAt": "2026-07-06T07:37:17.133Z",
+      "id": 5
+    }
+  ],
+  "banners": [
+    {
+      "id": 1,
+      "title": "Essence Mascara Lash Princess",
+      "subtitle": "Create bold, dramatic lashes with one of our most popular beauty essentials.",
+      "ctaText": "Shop Beauty",
+      "ctaLink": "/products?categoryId=2",
+      "image": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
+      "gradient": "linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%)",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": 2,
+      "title": "Calvin Klein CK One",
+      "subtitle": "Discover a fresh and timeless fragrance created for effortless everyday moments.",
+      "ctaText": "Explore Fragrances",
+      "ctaLink": "/products?categoryId=3",
+      "image": "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/thumbnail.webp",
+      "gradient": "linear-gradient(135deg, #fafafa 0%, #fdf2f8 50%, #fce7f3 100%)",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": 3,
+      "title": "Annibale Colombo Bed",
+      "subtitle": "Transform your bedroom with premium craftsmanship, elegant details, and timeless comfort.",
+      "ctaText": "Shop Furniture",
+      "ctaLink": "/products?categoryId=4",
+      "image": "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/thumbnail.webp",
+      "gradient": "linear-gradient(135deg, #f9fafb 0%, #fdf2f8 55%, #fbcfe8 100%)",
+      "isActive": true,
+      "order": 3
+    },
+    {
+      "title": "Make Your Life Easier",
+      "subtitle": "you deserve more",
+      "ctaText": "Shop Now",
+      "ctaLink": "/products",
+      "image": "https://cdn.dummyjson.com/product-images/beauty/red-lipstick/1.webp",
+      "gradient": "linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%)",
+      "isActive": true,
+      "order": 4,
+      "id": 4
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "productId": 11,
+      "userId": 3,
+      "userName": "Jane Customer",
+      "rating": 5,
+      "comment": "Absolutely love this MacBook! The performance is incredible and the display is stunning.",
+      "createdAt": "2024-02-20T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "productId": 13,
+      "userId": 4,
+      "userName": "Bob Smith",
+      "rating": 5,
+      "comment": "Best headphones I've ever owned. The noise cancellation is phenomenal.",
+      "createdAt": "2024-02-25T14:00:00.000Z"
+    }
+  ]
+}

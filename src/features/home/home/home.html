@@ -1,0 +1,171 @@
+@if (!isLoading()) {
+  <app-banner-slider [banners]="banners()"></app-banner-slider>
+}
+
+<div class="trust-bar">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-center justify-content-md-between flex-wrap gap-3 py-2">
+      <span class="trust-item">
+        <i class="fas fa-truck text-primary"></i>
+        Free shipping on orders over $100
+      </span>
+      <span class="trust-item d-none d-sm-flex">
+        <i class="fas fa-undo text-primary"></i>
+        30-day easy returns
+      </span>
+      <span class="trust-item d-none d-md-flex">
+        <i class="fas fa-shield-alt text-primary"></i>
+        Secure checkout
+      </span>
+      <span class="trust-item d-none d-lg-flex">
+        <i class="fas fa-headset text-primary"></i>
+        24/7 support
+      </span>
+    </div>
+  </div>
+</div>
+
+<section class="py-5" id="categories">
+  <div class="container">
+    <div class="section-row-header">
+      <h2 class="fs-5 fw-bold">Shop by Category</h2>
+      <a routerLink="/products" class="text-primary">View all <i class="fas fa-arrow-right ms-1"></i></a>
+    </div>
+
+    @if (isLoading()) {
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
+        @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+          <div class="col">
+            <div class="skeleton-pulse rounded-3" style="height: 90px;"></div>
+          </div>
+        }
+      </div>
+    } @else if (categories().length > 0) {
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
+        @for (cat of categories(); track trackById($index, cat)) {
+          <div class="col">
+            <div
+              class="cat-tile d-flex flex-column align-items-center text-center p-3 rounded-3 bg-white border cursor-pointer"
+              (click)="navigateToCategory(cat.id)"
+              (keydown.enter)="navigateToCategory(cat.id)"
+              tabindex="0"
+              role="button"
+              [attr.aria-label]="'Browse ' + cat.name"
+            >
+              <div class="cat-icon mb-2" [style.color]="getCategoryColor(cat, $index)">
+                <i [class]="getCategoryIcon(cat, $index)"></i>
+              </div>
+              <span class="fw-semibold text-dark" class="small">{{ cat.name }}</span>
+              <span class="text-muted" class="text-xs">{{ cat.productCount || 0 }} items</span>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="py-4 text-center text-muted">
+        <i class="fas fa-th-large me-2"></i>No categories available
+      </div>
+    }
+  </div>
+</section>
+
+<section class="py-5 bg-light border-top border-bottom">
+  <div class="container">
+    <div class="row g-0 align-items-stretch rounded-3 overflow-hidden promo-banner">
+      <div class="col-md-8 p-4 p-lg-5">
+        <span class="text-xs text-uppercase fw-bold text-primary letter-spacing-1 d-block mb-2">Limited time</span>
+        <h3 class="fw-bold mb-2" class="fs-4">
+          Free Shipping on Orders Over <strong class="text-primary">$100</strong>
+        </h3>
+        <p class="text-muted mb-4" class="mw-420">No promo code required. Free standard shipping is automatically applied at checkout on qualifying orders.</p>
+        <a routerLink="/products" class="btn btn-primary px-4">
+          <i class="fas fa-shopping-bag me-2"></i>Shop now
+        </a>
+      </div>
+      <div class="col-md-4 d-none d-md-flex align-items-center justify-content-center p-4 promo-banner-right">
+        <div class="text-center text-white">
+          <i class="fas fa-shipping-fast" class="display-4 opacity-75"></i>
+          <p class="fw-bold mt-3 mb-0">10,000+ eligible products</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="section-row-header">
+      <div>
+        <h2 class="fs-5 fw-bold mb-0">Featured Products</h2>
+        <p class="text-muted mb-0" style="font-size: 0.825rem;">Hand-picked by our team</p>
+      </div>
+      <a routerLink="/products" class="text-primary d-none d-md-block">Browse all <i class="fas fa-arrow-right ms-1"></i></a>
+    </div>
+
+    @if (isLoading()) {
+      <div class="row g-3">
+        @for (i of [1, 2, 3, 4]; track i) {
+          <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="skeleton-pulse rounded-3" style="height: 300px;"></div>
+          </div>
+        }
+      </div>
+    } @else if (featuredProducts().length > 0) {
+      <div class="row g-3">
+        @for (product of featuredProducts(); track trackById($index, product)) {
+          <div class="col-xl-3 col-lg-4 col-md-6">
+            <app-product-card [product]="product"></app-product-card>
+          </div>
+        }
+      </div>
+      <div class="text-center mt-4 d-md-none">
+        <a routerLink="/products" class="btn btn-outline-primary px-4">View all products</a>
+      </div>
+    } @else {
+      <div class="py-5 text-center text-muted">
+        <i class="fas fa-box-open me-2"></i>No featured products found
+      </div>
+    }
+  </div>
+</section>
+
+<section class="stats-strip border-top border-bottom py-4 bg-white">
+  <div class="container">
+    <div class="row g-3 text-center">
+      @for (stat of stats; track stat.label) {
+        <div class="col-6 col-md-3">
+          <div class="fw-bold text-dark" class="fs-4">{{ stat.value }}</div>
+          <div class="text-muted" class="small">{{ stat.label }}</div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5 col-md-7 text-center">
+        <h3 class="fw-bold mb-1" class="fs-5">Stay in the loop</h3>
+        <p class="text-muted mb-4" class="small">
+          New arrivals, exclusive deals, and sale alerts — straight to your inbox.
+        </p>
+        <form [formGroup]="newsletterForm" (ngSubmit)="submitNewsletter()">
+          <div class="input-group">
+            <input
+              type="email"
+              class="form-control"
+              placeholder="your@email.com"
+              formControlName="email"
+              [class.is-invalid]="newsletterForm.get('email')?.invalid && newsletterForm.get('email')?.touched"
+            />
+            <button class="btn btn-primary fw-semibold px-4" type="submit">Subscribe</button>
+          </div>
+          @if (newsletterForm.get('email')?.invalid && newsletterForm.get('email')?.touched) {
+            <div class="text-danger small mt-1 text-start">Please enter a valid email address.</div>
+          }
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

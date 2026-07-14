@@ -1,0 +1,320 @@
+<div class="min-vh-100 bg-light pt-navbar-offset">
+
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="filterOffcanvas" style="width: 310px;">
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title fw-bold">
+        <i class="fas fa-sliders-h me-2 text-primary"></i> Filters
+        @if (activeFilterCount() > 0) {
+          <span class="badge bg-primary ms-2">{{ activeFilterCount() }}</span>
+        }
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ng-container [ngTemplateOutlet]="filterPanel"></ng-container>
+    </div>
+  </div>
+
+  <div class="container-fluid px-3 px-lg-4 py-4">
+    <div class="row g-4">
+
+      <div class="col-lg-3 d-none d-lg-block">
+        <div class="card border-0 shadow-sm p-4 position-sticky" style="top: 90px; max-height: calc(100vh - 110px); overflow-y: auto;">
+          <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+            <span class="fw-bold fs-6">
+              <i class="fas fa-sliders-h me-2 text-primary"></i> Filters
+            </span>
+            @if (activeFilterCount() > 0) {
+              <button class="btn btn-link btn-sm text-danger p-0 text-decoration-none" (click)="clearFilters()">
+                <i class="fas fa-times me-1"></i> Clear All
+              </button>
+            }
+          </div>
+          <ng-container [ngTemplateOutlet]="filterPanel"></ng-container>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-9">
+
+        <div class="card border-0 shadow-sm p-3 mb-4 bg-white">
+          <div class="row g-3 align-items-center">
+
+            <div class="col-12 col-md-6">
+              <form [formGroup]="searchForm">
+                <div class="input-group">
+                  <span class="input-group-text bg-white border-end-0">
+                    <i class="fas fa-search text-muted"></i>
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control border-start-0 ps-0"
+                    placeholder="Search products, brands..."
+                    formControlName="search"
+                    style="height: 40px; font-size: 0.875rem;"
+                  />
+                  @if (searchForm.get('search')?.value) {
+                    <button
+                      class="btn btn-outline-secondary border-start-0"
+                      type="button"
+                      (click)="searchForm.patchValue({search:''})">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  }
+                </div>
+              </form>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="d-flex align-items-center gap-2 justify-content-md-end flex-wrap">
+
+                <button
+                  class="btn btn-outline-primary d-lg-none btn-sm py-2 px-3 fw-semibold"
+                  type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#filterOffcanvas">
+                  <i class="fas fa-sliders-h me-1"></i> Filters
+                  @if (activeFilterCount() > 0) {
+                    <span class="badge bg-primary ms-1">{{ activeFilterCount() }}</span>
+                  }
+                </button>
+
+                <select class="form-select form-select-sm cursor-pointer" style="width: auto; min-width: 160px; height: 36px; font-size: 0.85rem;" (change)="onSortChange($any($event.target).value)">
+                  <option value="newest">Newest First</option>
+                  <option value="price_asc">Price: Low to High</option>
+                  <option value="price_desc">Price: High to Low</option>
+                  <option value="rating">Top Rated</option>
+                </select>
+
+                <div class="btn-group border rounded-3 overflow-hidden" role="group">
+                  <button
+                    type="button"
+                    class="btn btn-sm py-2 px-3 border-0 rounded-0 d-flex align-items-center justify-content-center"
+                    [class.btn-primary]="viewMode() === 'grid'"
+                    [class.btn-light]="viewMode() !== 'grid'"
+                    (click)="setViewMode('grid')"
+                    title="Grid View">
+                    <i class="fas fa-th"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm py-2 px-3 border-0 rounded-0 d-flex align-items-center justify-content-center"
+                    [class.btn-primary]="viewMode() === 'list'"
+                    [class.btn-light]="viewMode() !== 'list'"
+                    (click)="setViewMode('list')"
+                    title="List View">
+                    <i class="fas fa-list"></i>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        @if (activeFilterCount() > 0) {
+          <div class="d-flex align-items-center flex-wrap gap-2 mb-4">
+            <span class="text-muted small fw-semibold me-1">Active filters:</span>
+            @for (catId of selectedCategories(); track catId) {
+              <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2">
+                <i class="fas fa-tag small"></i>
+                {{ getCategoryName(catId) }}
+                <i class="fas fa-times cursor-pointer ms-1 hover-danger" (click)="removeCategoryFilter(catId)"></i>
+              </span>
+            }
+            @if (priceMin() !== null || priceMax() !== null) {
+              <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2">
+                <i class="fas fa-dollar-sign small"></i>
+                {{ priceMin() ?? 0 | currency }} – {{ priceMax() !== null ? (priceMax()! | currency) : 'Any' }}
+                <i class="fas fa-times cursor-pointer ms-1 hover-danger" (click)="removePriceFilter()"></i>
+              </span>
+            }
+            @if (inStockOnly()) {
+              <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2">
+                <i class="fas fa-check-circle small"></i> In Stock
+                <i class="fas fa-times cursor-pointer ms-1 hover-danger" (click)="removeStockFilter()"></i>
+              </span>
+            }
+            @if (selectedSeller()) {
+              <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2">
+                <i class="fas fa-store small"></i> {{ getSellerName(selectedSeller()!) }}
+                <i class="fas fa-times cursor-pointer ms-1 hover-danger" (click)="removeSellerFilter()"></i>
+              </span>
+            }
+            <button class="btn btn-sm btn-link text-danger p-0 text-decoration-none ms-2" (click)="clearFilters()">Clear all</button>
+          </div>
+        }
+
+        <div class="mb-3">
+          @if (!isLoading()) {
+            <span class="text-muted small">
+              Showing <strong>{{ filteredCount() }}</strong> product{{ filteredCount() !== 1 ? 's' : '' }}
+            </span>
+          } @else {
+            <span class="text-muted small">Loading products...</span>
+          }
+        </div>
+
+        @if (isLoading()) {
+          <div class="row g-3 row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
+            @for (s of skeletons; track $index) {
+              <div class="col">
+                <div class="card border-0 shadow-sm overflow-hidden">
+                  <div class="skeleton-img w-100 bg-secondary-soft bg-opacity-25" style="height: 200px; background: linear-gradient(90deg, #f0f2f5 25%, #e8ecf4 50%, #f0f2f5 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite;"></div>
+                  <div class="card-body p-3 d-flex flex-column gap-2">
+                    <div class="skeleton-line w-75 bg-secondary-soft bg-opacity-25" style="height: 12px; border-radius: 6px; background: linear-gradient(90deg, #f0f2f5 25%, #e8ecf4 50%, #f0f2f5 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite;"></div>
+                    <div class="skeleton-line w-50 bg-secondary-soft bg-opacity-25" style="height: 12px; border-radius: 6px; background: linear-gradient(90deg, #f0f2f5 25%, #e8ecf4 50%, #f0f2f5 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite;"></div>
+                    <div class="skeleton-line w-60 bg-secondary-soft bg-opacity-25" style="height: 12px; border-radius: 6px; background: linear-gradient(90deg, #f0f2f5 25%, #e8ecf4 50%, #f0f2f5 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite;"></div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+          <div
+            [class.row]="viewMode() === 'grid'"
+            [class.g-3]="viewMode() === 'grid'"
+            [class.row-cols-2]="viewMode() === 'grid'"
+            [class.row-cols-sm-2]="viewMode() === 'grid'"
+            [class.row-cols-md-3]="viewMode() === 'grid'"
+            [class.row-cols-xl-4]="viewMode() === 'grid'"
+            [class.products-list]="viewMode() === 'list'">
+            @for (product of products(); track product.id) {
+              <div [class.col]="viewMode() === 'grid'" [class.product-item]="viewMode() === 'list'">
+                <app-product-card [product]="product" [showActions]="true"></app-product-card>
+              </div>
+            }
+          </div>
+
+        @if (!isLoading() && products().length === 0) {
+          <div class="card border-2 border-dashed p-5 text-center bg-white shadow-sm rounded-4">
+            <div class="rounded-circle bg-primary-soft d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 90px; height: 90px;">
+              <i class="fas fa-search-minus text-primary fs-2"></i>
+            </div>
+            <h4 class="fw-bold text-dark mb-2">No Products Found</h4>
+            <p class="text-muted mb-4 mx-auto" class="mw-380">
+              We couldn't find any products matching your current filters.<br>
+              Try adjusting or clearing your filters.
+            </p>
+            <div>
+              <button class="btn btn-primary mt-2 fw-semibold px-4 py-2" (click)="clearFilters()">
+                <i class="fas fa-redo me-2"></i>Clear Filters
+              </button>
+              <a [routerLink]="['/products']" class="btn btn-outline-secondary mt-2 ms-2 fw-semibold px-4 py-2">
+                <i class="fas fa-home me-2"></i>Browse All
+              </a>
+            </div>
+          </div>
+        }
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #filterPanel>
+  <form [formGroup]="filterForm" class="d-flex flex-column gap-4">
+
+    <div>
+      <h6 class="text-uppercase fw-bold text-muted mb-3" class="text-xs">
+        <i class="fas fa-tag me-2 text-primary"></i>Categories
+      </h6>
+      <div class="d-flex flex-column gap-2 overflow-auto pe-1" style="max-height: 220px;">
+        @for (cat of categories(); track cat.id) {
+          <div class="form-check d-flex align-items-center justify-content-between m-0">
+            <div>
+              <input
+                type="checkbox"
+                class="form-check-input cursor-pointer"
+                [id]="'cat-' + cat.id"
+                [checked]="isCategorySelected(cat.id)"
+                (change)="toggleCategory(cat.id)"
+              />
+              <label [for]="'cat-' + cat.id" class="form-check-label cursor-pointer text-dark small fw-semibold">
+                {{ cat.name }}
+              </label>
+            </div>
+            <span class="badge bg-light text-muted rounded-pill small">{{ cat.productCount }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <hr class="my-1 border-light">
+
+    <div>
+      <h6 class="text-uppercase fw-bold text-muted mb-3" style="font-size: 0.75rem; letter-spacing: 0.6px;">
+        <i class="fas fa-dollar-sign me-2 text-primary"></i>Price Range
+      </h6>
+      <div class="d-flex align-items-center gap-2">
+        <div class="flex-grow-1">
+          <label class="small text-muted mb-1" class="text-xs">Min ($)</label>
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            placeholder="0"
+            formControlName="priceMin"
+            min="0"
+            (change)="onPriceChange()"
+          />
+        </div>
+        <span class="text-muted pt-3">—</span>
+        <div class="flex-grow-1">
+          <label class="small text-muted mb-1" style="font-size: 0.7rem;">Max ($)</label>
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            placeholder="Any"
+            formControlName="priceMax"
+            min="0"
+            (change)="onPriceChange()"
+          />
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-1 border-light">
+
+    <div>
+      <h6 class="text-uppercase fw-bold text-muted mb-3" style="font-size: 0.75rem; letter-spacing: 0.6px;">
+        <i class="fas fa-boxes me-2 text-primary"></i>Availability
+      </h6>
+      <div class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input cursor-pointer"
+          id="inStockCheck"
+          formControlName="inStockOnly"
+          (change)="onStockChange()"
+        />
+        <label for="inStockCheck" class="form-check-label cursor-pointer text-dark small fw-semibold">
+          In Stock Only
+        </label>
+      </div>
+    </div>
+
+    <hr class="my-1 border-light">
+
+    <div>
+      <h6 class="text-uppercase fw-bold text-muted mb-3" style="font-size: 0.75rem; letter-spacing: 0.6px;">
+        <i class="fas fa-store me-2 text-primary"></i>Seller
+      </h6>
+      <select class="form-select form-select-sm cursor-pointer" formControlName="sellerId" (change)="onSellerChange()">
+        <option [value]="null">All Sellers</option>
+        @for (seller of sellers(); track seller.id) {
+          <option [value]="seller.id">{{ seller.storeName }}</option>
+        }
+      </select>
+    </div>
+
+    @if (activeFilterCount() > 0) {
+      <div class="mt-2">
+        <button type="button" class="btn btn-outline-danger w-100 btn-sm py-2 fw-semibold" (click)="clearFilters()">
+          <i class="fas fa-times-circle me-2"></i>Clear All Filters
+        </button>
+      </div>
+    }
+
+  </form>
+</ng-template>
+

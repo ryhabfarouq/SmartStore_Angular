@@ -1,0 +1,253 @@
+<div class="auth-card animate-fade-in">
+
+  <div class="d-flex d-lg-none justify-content-center align-items-center gap-2 mb-3">
+    <span class="fw-bold fs-4 gradient-text">SmartStore</span>
+  </div>
+
+  <div class="mb-4">
+    <h2 class="fs-3 fw-bold text-white mb-1">Create Account</h2>
+    <p class="text-white-50 small mb-0">Fill in the details below to get started</p>
+  </div>
+
+  <div class="mb-4">
+    <label class="form-label fw-semibold text-white-50 small mb-2 d-flex align-items-center">I want to:</label>
+    <div class="row g-2">
+      <div class="col">
+        <button
+          type="button"
+          class="btn btn-outline-light w-100 d-flex flex-column align-items-center justify-content-center p-3 text-center rounded-3 role-btn"
+          [class.active-customer]="selectedRole() === 'customer'"
+          (click)="selectRole('customer')"
+        >
+          <i class="fas fa-shopping-bag fs-4 mb-2 role-icon"></i>
+          <span class="fw-bold small d-block">Shop as Customer</span>
+          <span class="text-white-50 mt-1" style="font-size: 0.72rem; line-height: 1.2;">Buy products & explore deals</span>
+        </button>
+      </div>
+      <div class="col">
+        <button
+          type="button"
+          class="btn btn-outline-light w-100 d-flex flex-column align-items-center justify-content-center p-3 text-center rounded-3 role-btn"
+          [class.active-seller]="selectedRole() === 'seller'"
+          (click)="selectRole('seller')"
+        >
+          <i class="fas fa-store fs-4 mb-2 role-icon"></i>
+          <span class="fw-bold small d-block">Sell as Merchant</span>
+          <span class="text-white-50 mt-1" style="font-size: 0.72rem; line-height: 1.2;">List products & grow your store</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold text-white-50 small mb-2 d-flex align-items-center" for="name">
+        <i class="fas fa-user me-2 text-primary-light"></i>Full Name
+      </label>
+      <input
+        id="name"
+        type="text"
+        class="form-control"
+        [class.is-invalid]="nameControl?.invalid && nameControl?.touched"
+        [class.is-valid]="nameControl?.valid && nameControl?.touched"
+        formControlName="name"
+        placeholder="John Doe"
+        autocomplete="name"
+      />
+      @if (nameControl?.touched && nameControl?.errors) {
+        <div class="invalid-feedback">
+          @if (nameControl?.errors?.['required']) {
+            <i class="fas fa-exclamation-circle me-1"></i>Full name is required.
+          }
+          @if (nameControl?.errors?.['minlength']) {
+            <i class="fas fa-exclamation-circle me-1"></i>Name must be at least 3 characters.
+          }
+        </div>
+      }
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-sm-6">
+        <label class="form-label fw-semibold text-white-50 small mb-2 d-flex align-items-center" for="email">
+          <i class="fas fa-envelope me-2 text-primary-light"></i>Email
+        </label>
+        <input
+          id="email"
+          type="email"
+          class="form-control"
+          [class.is-invalid]="emailControl?.invalid && emailControl?.touched"
+          [class.is-valid]="emailControl?.valid && emailControl?.touched"
+          formControlName="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+        />
+        @if (emailControl?.touched && emailControl?.errors) {
+          <div class="invalid-feedback">
+            @if (emailControl?.errors?.['required']) {
+              <i class="fas fa-exclamation-circle me-1"></i>Email is required.
+            }
+            @if (emailControl?.errors?.['email']) {
+              <i class="fas fa-exclamation-circle me-1"></i>Enter a valid email.
+            }
+          </div>
+        }
+      </div>
+
+      <div class="col-sm-6">
+        <label class="form-label fw-semibold text-white-50 small mb-2 d-flex align-items-center" for="phone">
+          <i class="fas fa-phone me-2 text-primary-light"></i>Phone
+        </label>
+        <input
+          id="phone"
+          type="tel"
+          class="form-control"
+          [class.is-invalid]="phoneControl?.invalid && phoneControl?.touched"
+          [class.is-valid]="phoneControl?.valid && phoneControl?.touched"
+          formControlName="phone"
+          placeholder="+1 555 000 0000"
+          autocomplete="tel"
+        />
+        @if (phoneControl?.touched && phoneControl?.errors) {
+          <div class="invalid-feedback">
+            @if (phoneControl?.errors?.['required']) {
+              <i class="fas fa-exclamation-circle me-1"></i>Phone is required.
+            }
+            @if (phoneControl?.errors?.['pattern']) {
+              <i class="fas fa-exclamation-circle me-1"></i>Enter a valid phone number.
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label fw-semibold text-white-50 small mb-2 d-flex align-items-center" for="password">
+        <i class="fas fa-lock me-2 text-primary-light"></i>Password
+      </label>
+      <div class="input-group">
+        <input
+          id="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          class="form-control"
+          [class.is-invalid]="passwordControl?.invalid && passwordControl?.touched"
+          [class.is-valid]="passwordControl?.valid && passwordControl?.touched"
+          formControlName="password"
+          placeholder="Min 8 characters"
+          autocomplete="new-password"
+        />
+        <button
+          type="button"
+          class="btn btn-outline-secondary border-start-0 text-white-50 px-3"
+          style="border-color: rgba(255, 255, 255, 0.12);"
+          (click)="togglePasswordVisibility()"
+        >
+          @if (showPassword()) {
+            <i class="fas fa-eye-slash"></i>
+          } @else {
+            <i class="fas fa-eye"></i>
+          }
+        </button>
+      </div>
+      @if (passwordControl?.touched && passwordControl?.errors) {
+        <div class="invalid-feedback d-block">
+          @if (passwordControl?.errors?.['required']) {
+            <i class="fas fa-exclamation-circle me-1"></i>Password is required.
+          }
+          @if (passwordControl?.errors?.['minlength']) {
+            <i class="fas fa-exclamation-circle me-1"></i>Password must be at least 8 characters.
+          }
+        </div>
+      }
+    </div>
+
+    @if (passwordControl?.value) {
+      <div class="d-flex align-items-center gap-3 mt-2 mb-3">
+        <div class="d-flex gap-1 flex-grow-1">
+          @for (bar of [1,2,3,4]; track bar) {
+            <div
+              class="flex-grow-1"
+              style="height: 4px; border-radius: 4px;"
+              [class]="bar <= getPasswordStrength().level ? getPasswordStrength().colorClass : 'bg-white bg-opacity-10'"
+            ></div>
+          }
+        </div>
+        <span class="small fw-bold text-end strength-label" style="min-width: 50px;" [class]="getPasswordStrength().colorClass">
+          {{ getPasswordStrength().label }}
+        </span>
+      </div>
+    }
+
+    <div class="mb-4">
+      <label class="form-label fw-semibold text-white-50 small mb-2 d-flex align-items-center" for="confirmPassword">
+        <i class="fas fa-lock me-2 text-primary-light"></i>Confirm Password
+      </label>
+      <div class="input-group">
+        <input
+          id="confirmPassword"
+          [type]="showConfirmPassword() ? 'text' : 'password'"
+          class="form-control"
+          [class.is-invalid]="(confirmPasswordControl?.touched && confirmPasswordControl?.errors) || passwordMismatch"
+          [class.is-valid]="confirmPasswordControl?.valid && confirmPasswordControl?.touched && !passwordMismatch"
+          formControlName="confirmPassword"
+          placeholder="Re-enter password"
+          autocomplete="new-password"
+        />
+        <button
+          type="button"
+          class="btn btn-outline-secondary border-start-0 text-white-50 px-3"
+          style="border-color: rgba(255, 255, 255, 0.12);"
+          (click)="toggleConfirmPasswordVisibility()"
+        >
+          @if (showConfirmPassword()) {
+            <i class="fas fa-eye-slash"></i>
+          } @else {
+            <i class="fas fa-eye"></i>
+          }
+        </button>
+      </div>
+      @if (confirmPasswordControl?.touched && confirmPasswordControl?.errors?.['required']) {
+        <div class="invalid-feedback d-block">
+          <i class="fas fa-exclamation-circle me-1"></i>Please confirm your password.
+        </div>
+      }
+      @if (passwordMismatch) {
+        <div class="invalid-feedback d-block">
+          <i class="fas fa-exclamation-circle me-1"></i>Passwords do not match.
+        </div>
+      }
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-auth-gradient w-100 fw-bold"
+      [disabled]="isLoading()"
+    >
+      @if (isLoading()) {
+        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+        Creating Account...
+      } @else {
+        <i class="fas fa-user-plus me-2"></i>Create My Account
+      }
+    </button>
+
+    <p class="text-center text-white-50 mt-3 mb-0" style="font-size: 0.76rem; line-height: 1.4;">
+      By creating an account, you agree to our
+      <a href="#" class="text-primary-light text-decoration-none hover-glow fw-semibold">Terms of Service</a> and
+      <a href="#" class="text-primary-light text-decoration-none hover-glow fw-semibold">Privacy Policy</a>.
+    </p>
+
+  </form>
+
+  <div class="d-flex align-items-center my-4">
+    <hr class="flex-grow-1 border-white-50 opacity-25">
+    <span class="mx-3 text-white-50 text-uppercase small fw-bold tracking-wider" style="font-size: 0.75rem; letter-spacing: 0.8px;">already a member?</span>
+    <hr class="flex-grow-1 border-white-50 opacity-25">
+  </div>
+  <p class="mb-0">
+    <a routerLink="/auth/login" class="btn btn-outline-light w-100 fw-semibold py-2.5" style="border-color: rgba(255, 255, 255, 0.15);">
+      <i class="fas fa-sign-in-alt me-2"></i>Sign In to Your Account
+    </a>
+  </p>
+
+</div>

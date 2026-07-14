@@ -1,0 +1,338 @@
+<div class="py-5 bg-light pt-navbar-offset">
+  <div class="container">
+
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-8">
+        <div class="step-progress d-flex justify-content-between position-relative">
+          <div class="progress-line" [style.width.%]="(currentStep() - 1) * 50"></div>
+
+          <button class="step-btn d-flex flex-column align-items-center" 
+                  [class.active]="currentStep() >= 1" 
+                  [class.completed]="currentStep() > 1"
+                  (click)="goToStep(1)">
+            <span class="step-number"><i class="fas fa-map-marker-alt"></i></span>
+            <span class="step-label">Shipping</span>
+          </button>
+
+          <button class="step-btn d-flex flex-column align-items-center" 
+                  [class.active]="currentStep() >= 2" 
+                  [class.completed]="currentStep() > 2"
+                  [disabled]="currentStep() < 2"
+                  (click)="goToStep(2)">
+            <span class="step-number"><i class="fas fa-credit-card"></i></span>
+            <span class="step-label">Payment</span>
+          </button>
+
+          <div class="step-btn d-flex flex-column align-items-center" 
+               [class.active]="currentStep() === 3" 
+               [class.completed]="currentStep() === 3">
+            <span class="step-number"><i class="fas fa-check"></i></span>
+            <span class="step-label">Success</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @if (currentStep() < 3) {
+      <div class="row g-4">
+
+        <div class="col-lg-8">
+          <div class="card border-0 shadow-sm p-4 p-md-5 rounded-4">
+
+            @if (currentStep() === 1) {
+              <h3 class="fw-bold mb-4">Shipping Information</h3>
+              <form [formGroup]="shippingForm" (ngSubmit)="continueToPayment()">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label class="form-label fw-semibold">Street Address</label>
+                    <input type="text" class="form-control rounded-3" formControlName="street" 
+                           [class.is-invalid]="isFieldInvalid(shippingForm, 'street')" placeholder="123 Ocean Drive" />
+                    <div class="invalid-feedback">{{ getFieldError(shippingForm, 'street') }}</div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold">City</label>
+                    <input type="text" class="form-control rounded-3" formControlName="city" 
+                           [class.is-invalid]="isFieldInvalid(shippingForm, 'city')" placeholder="Miami" />
+                    <div class="invalid-feedback">{{ getFieldError(shippingForm, 'city') }}</div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold">State / Province</label>
+                    <input type="text" class="form-control rounded-3" formControlName="state" 
+                           [class.is-invalid]="isFieldInvalid(shippingForm, 'state')" placeholder="Florida" />
+                    <div class="invalid-feedback">{{ getFieldError(shippingForm, 'state') }}</div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold">Zip / Postal Code</label>
+                    <input type="text" class="form-control rounded-3" formControlName="zip" 
+                           [class.is-invalid]="isFieldInvalid(shippingForm, 'zip')" placeholder="33101" />
+                    <div class="invalid-feedback">{{ getFieldError(shippingForm, 'zip') }}</div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold">Country</label>
+                    <input type="text" class="form-control rounded-3" formControlName="country" 
+                           [class.is-invalid]="isFieldInvalid(shippingForm, 'country')" placeholder="United States" />
+                    <div class="invalid-feedback">{{ getFieldError(shippingForm, 'country') }}</div>
+                  </div>
+                </div>
+
+                <div class="mt-4 pt-3 text-end">
+                  <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5">
+                    Continue to Payment<i class="fas fa-arrow-right ms-2"></i>
+                  </button>
+                </div>
+              </form>
+            }
+
+            @if (currentStep() === 2) {
+              <h3 class="fw-bold mb-4">Select Payment Method</h3>
+
+              <div class="row g-3 mb-5">
+                @for (opt of paymentOptions; track opt.value) {
+                  <div class="col-md-6">
+                    <div class="payment-card card h-100 p-3 rounded-4 border-2 cursor-pointer"
+                         [class.selected]="selectedPaymentMethod() === opt.value"
+                         (click)="selectPaymentMethod(opt.value)">
+                      <div class="d-flex align-items-center gap-3">
+                        <div class="payment-icon bg-primary-soft p-3 rounded-3" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                          <i [class]="opt.icon + ' fa-lg text-primary'"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold">{{ opt.label }}</div>
+                          <div class="text-muted small">{{ opt.desc }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+
+              @if (selectedPaymentMethod() === 'credit_card') {
+                <div class="payment-details-block mb-4 p-4 rounded-4 bg-light">
+                  <h5 class="fw-bold mb-4">Credit Card Details</h5>
+                  <div class="row g-4">
+
+                    <div class="col-md-5 d-flex align-items-center justify-content-center">
+                      <div class="credit-card-mockup rounded-4 p-4 text-white shadow-lg w-100 position-relative overflow-hidden">
+                        <div class="card-bg-gradient"></div>
+                        <div class="d-flex justify-content-between align-items-start mb-4 position-relative">
+                          <i class="fas fa-wave-square fa-lg"></i>
+                          <i class="fab fa-cc-visa fa-2x"></i>
+                        </div>
+                        <div class="chip mb-3 position-relative"></div>
+                        <div class="card-number mb-4 fs-5 fw-bold letter-spacing position-relative">
+                          {{ getDisplayCardNumber() || '•••• •••• •••• ••••' }}
+                        </div>
+                        <div class="d-flex justify-content-between position-relative">
+                          <div>
+                            <div class="text-uppercase small-label text-white-50">Card Holder</div>
+                            <div class="small fw-semibold">{{ creditCardForm.value.cardHolderName || 'YOUR FULL NAME' }}</div>
+                          </div>
+                          <div>
+                            <div class="text-uppercase small-label text-white-50">Expires</div>
+                            <div class="small fw-semibold">{{ creditCardForm.value.expiry || 'MM/YY' }}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-7">
+                      <form [formGroup]="creditCardForm">
+                        <div class="row g-3">
+                          <div class="col-12">
+                            <label class="form-label fw-semibold">Cardholder Name</label>
+                            <input type="text" class="form-control rounded-3" formControlName="cardHolderName"
+                                   [class.is-invalid]="isFieldInvalid(creditCardForm, 'cardHolderName')" placeholder="John Doe" />
+                            <div class="invalid-feedback">{{ getFieldError(creditCardForm, 'cardHolderName') }}</div>
+                          </div>
+                          <div class="col-12">
+                            <label class="form-label fw-semibold">Card Number</label>
+                            <input type="text" class="form-control rounded-3" formControlName="cardNumber"
+                                   [class.is-invalid]="isFieldInvalid(creditCardForm, 'cardNumber')"
+                                   (input)="formatCardNumber($event)" placeholder="1234567812345678" maxlength="16" />
+                            <div class="invalid-feedback">{{ getFieldError(creditCardForm, 'cardNumber') }}</div>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label fw-semibold">Expiration Date</label>
+                            <input type="text" class="form-control rounded-3" formControlName="expiry"
+                                   [class.is-invalid]="isFieldInvalid(creditCardForm, 'expiry')"
+                                   (input)="formatExpiry($event)" placeholder="MM/YY" maxlength="5" />
+                            <div class="invalid-feedback">{{ getFieldError(creditCardForm, 'expiry') }}</div>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label fw-semibold">CVV / CVC</label>
+                            <input type="password" class="form-control rounded-3" formControlName="cvv"
+                                   [class.is-invalid]="isFieldInvalid(creditCardForm, 'cvv')" placeholder="123" maxlength="4" />
+                            <div class="invalid-feedback">{{ getFieldError(creditCardForm, 'cvv') }}</div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              @if (selectedPaymentMethod() === 'paypal') {
+                <div class="payment-details-block mb-4 p-4 rounded-4 bg-light">
+                  <h5 class="fw-bold mb-3"><i class="fab fa-paypal text-primary me-2"></i>PayPal Checkout</h5>
+                  <form [formGroup]="paypalForm">
+                    <div class="mb-3">
+                      <label class="form-label fw-semibold">PayPal Email Address</label>
+                      <input type="email" class="form-control rounded-3" formControlName="paypalEmail"
+                             [class.is-invalid]="isFieldInvalid(paypalForm, 'paypalEmail')" placeholder="your-email@paypal.com" />
+                      <div class="invalid-feedback">{{ getFieldError(paypalForm, 'paypalEmail') }}</div>
+                    </div>
+                  </form>
+                  <p class="text-muted small mb-0">You'll be redirected to secure PayPal gateway to authorize payment on clicking 'Place Order'.</p>
+                </div>
+              }
+
+              @if (selectedPaymentMethod() === 'wallet') {
+                <div class="payment-details-block mb-4 p-4 rounded-4 bg-light">
+                  <h5 class="fw-bold mb-3"><i class="fas fa-wallet text-success me-2"></i>Pay from Wallet Balance</h5>
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your Wallet Balance:</span>
+                    <span class="fs-4 fw-bold text-success">{{ walletBalance() | currency }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                    <span class="text-muted">Order Total:</span>
+                    <span class="fs-4 fw-bold text-dark">{{ total() | currency }}</span>
+                  </div>
+
+                  @if (!hasEnoughWallet()) {
+                    <div class="alert alert-danger border-0 mt-3 d-flex gap-2 align-items-center rounded-3">
+                      <i class="fas fa-exclamation-triangle"></i>
+                      <span>Your wallet balance is insufficient to pay for this order. Please select another method.</span>
+                    </div>
+                  } @else {
+                    <div class="alert alert-success border-0 mt-3 d-flex gap-2 align-items-center rounded-3">
+                      <i class="fas fa-check-circle"></i>
+                      <span>You have sufficient balance. Complete the order below.</span>
+                    </div>
+                  }
+                </div>
+              }
+
+              @if (selectedPaymentMethod() === 'cash_on_delivery') {
+                <div class="payment-details-block mb-4 p-4 rounded-4 bg-light">
+                  <h5 class="fw-bold mb-3"><i class="fas fa-money-bill-wave text-success me-2"></i>Cash on Delivery</h5>
+                  <p class="text-muted mb-0">Pay with cash upon delivery of your items. No advance payment or card details are required.</p>
+                </div>
+              }
+
+              <div class="d-flex justify-content-between mt-5">
+                <button (click)="goToStep(1)" class="btn btn-outline-secondary btn-lg rounded-pill px-4">
+                  <i class="fas fa-arrow-left me-2"></i>Back to Shipping
+                </button>
+                <button (click)="placeOrder()" 
+                        [disabled]="isProcessing() || (selectedPaymentMethod() === 'wallet' && !hasEnoughWallet())"
+                        class="btn btn-success btn-lg rounded-pill px-5 d-flex align-items-center gap-2">
+                  @if (isProcessing()) {
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Processing Order...
+                  } @else {
+                    <i class="fas fa-lock"></i>Place Order ({{ total() | currency }})
+                  }
+                </button>
+              </div>
+            }
+
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card border-0 shadow-sm p-4 rounded-4 order-summary-card">
+            <h4 class="fw-bold mb-4">Order Summary</h4>
+
+            <div class="summary-items-list mb-4">
+              @if (isLoadingProducts()) {
+                <div class="text-center py-4">
+                  <span class="spinner-border text-primary" role="status"></span>
+                </div>
+              } @else {
+                @for (item of cartItemsWithProducts(); track trackById($index, item)) {
+                  <div class="d-flex align-items-center gap-3 py-3 border-bottom border-light">
+                    <img [src]="item.product?.thumbnail" [alt]="item.product?.title" class="product-thumb" />
+                    <div class="flex-grow-1 overflow-hidden">
+                      <div class="fw-semibold text-truncate small">{{ item.product?.title }}</div>
+                      <div class="text-muted small">Qty: {{ item.quantity }}</div>
+                    </div>
+                    <div class="fw-bold small">{{ (item.product?.price ?? 0) * item.quantity | currency }}</div>
+                  </div>
+                }
+              }
+            </div>
+
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex justify-content-between text-muted">
+                <span>Subtotal</span>
+                <span>{{ subtotal() | currency }}</span>
+              </div>
+              @if (discount() > 0) {
+                <div class="d-flex justify-content-between text-success">
+                  <span>Product Discount</span>
+                  <span>-{{ discount() | currency }}</span>
+                </div>
+              }
+              <div class="d-flex justify-content-between text-muted">
+                <span>Shipping</span>
+                <span>{{ shipping() === 0 ? 'FREE' : (shipping() | currency) }}</span>
+              </div>
+              <div class="d-flex justify-content-between text-muted">
+                <span>Tax (9%)</span>
+                <span>{{ tax() | currency }}</span>
+              </div>
+
+              <hr class="my-2" />
+
+              <div class="d-flex justify-content-between align-items-center fw-bold fs-5 text-dark">
+                <span>Total</span>
+                <span>{{ total() | currency }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+
+      <div class="row justify-content-center">
+        <div class="col-md-7 text-center">
+          <div class="card border-0 shadow-lg p-5 rounded-4 success-card bg-white">
+            <div class="success-icon-wrapper mb-4 text-success">
+              <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 90px; height: 90px;">
+                <i class="fas fa-check-circle fa-4x animate-success"></i>
+              </div>
+            </div>
+
+            <h2 class="fw-bold mb-3">Order Placed Successfully!</h2>
+            <p class="text-muted mb-4 fs-6">
+              Thank you for your purchase. We have received your order and are processing it.<br>
+              Order Reference: <strong class="text-dark">#SW-{{ placedOrder()?.id }}</strong>
+            </p>
+
+            <div class="alert alert-light border rounded-3 p-4 text-start mb-4">
+              <div class="fw-bold mb-2">Delivery Address</div>
+              <div class="text-muted small">
+                {{ placedOrder()?.shippingAddress?.street }},<br>
+                {{ placedOrder()?.shippingAddress?.city }}, {{ placedOrder()?.shippingAddress?.state }} {{ placedOrder()?.shippingAddress?.zip }},<br>
+                {{ placedOrder()?.shippingAddress?.country }}
+              </div>
+            </div>
+
+            <div class="d-flex gap-3 justify-content-center">
+              <a routerLink="/orders" class="btn btn-primary btn-lg rounded-pill px-4">
+                <i class="fas fa-box me-2"></i>My Orders
+              </a>
+              <a routerLink="/home" class="btn btn-outline-secondary btn-lg rounded-pill px-4">
+                <i class="fas fa-shopping-cart me-2"></i>Back to Store
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

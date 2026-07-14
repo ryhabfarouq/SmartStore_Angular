@@ -1,0 +1,177 @@
+<div class="p-3">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+    <div>
+      <h1 class="h2 fw-extrabold text-dark mb-1">
+        Admin <span class="gradient-text">Dashboard</span>
+      </h1>
+      <p class="text-muted mb-0 small">
+        Welcome back! Here's what's happening with Shop Wave today.
+      </p>
+    </div>
+    <button class="btn btn-primary rounded-pill px-4" (click)="loadData()">
+      <i class="fas fa-sync-alt me-2"></i>Refresh
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="row g-4 mb-4">
+      @for (i of [1, 2, 3, 4]; track i) {
+        <div class="col-xl-3 col-md-6">
+          <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100 skeleton-card">
+            <div class="skeleton-icon mb-3"></div>
+            <div class="skeleton-text w-50 mb-2"></div>
+            <div class="skeleton-text w-75"></div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="row g-4 mb-4">
+      @for (stat of stats(); track stat.label) {
+        <div class="col-xl-3 col-md-6">
+          <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100 hover-card">
+            <div
+              class="rounded-3 d-flex align-items-center justify-content-center text-white mb-3"
+              [style.background]="stat.color"
+              style="width: 48px; height: 48px; font-size: 1.25rem"
+            >
+              <i [class]="stat.icon"></i>
+            </div>
+            <div class="h2 fw-extrabold text-dark mb-1">
+              @if (stat.isCurrency) {
+                ${{ stat.value | number: '1.0-0' }}
+              } @else {
+                {{ stat.value | number }}
+              }
+            </div>
+            <div
+              class="text-muted small text-uppercase fw-bold mb-2"
+              style="font-size: 0.75rem; letter-spacing: 0.5px"
+            >
+              {{ stat.label }}
+            </div>
+            <div
+              class="small fw-semibold d-flex align-items-center gap-1"
+              [class.text-success]="stat.trendUp"
+              [class.text-danger]="!stat.trendUp"
+            >
+              <i
+                class="fas"
+                [class.fa-arrow-up]="stat.trendUp"
+                [class.fa-arrow-down]="!stat.trendUp"
+              ></i>
+              <span>{{ stat.trend }} vs last month</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <div class="row g-4">
+    <div class="col-xl-8">
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white h-100">
+        <div
+          class="card-header bg-white border-bottom-0 p-4 d-flex align-items-center justify-content-between flex-wrap gap-2"
+        >
+          <div>
+            <h5 class="fw-bold mb-0 text-dark">Recent Orders</h5>
+            <p class="text-muted mb-0 small">Latest 5 transactions</p>
+          </div>
+          <a routerLink="/admin/orders" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+            View All <i class="fas fa-arrow-right ms-1"></i>
+          </a>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light text-dark small fw-semibold">
+              <tr>
+                <th class="ps-4 py-3">Order #</th>
+                <th class="py-3">Customer ID</th>
+                <th class="py-3">Date</th>
+                <th class="py-3">Total</th>
+                <th class="py-3">Status</th>
+                <th class="pe-4 py-3 text-end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @if (isLoading()) {
+                @for (i of [1, 2, 3, 4, 5]; track i) {
+                  <tr>
+                    <td colspan="6" class="ps-4"><div class="skeleton-text"></div></td>
+                  </tr>
+                }
+              } @else if (recentOrders().length === 0) {
+                <tr>
+                  <td colspan="6" class="text-center text-muted py-4">No orders found</td>
+                </tr>
+              } @else {
+                @for (order of recentOrders(); track order.id) {
+                  <tr>
+                    <td class="ps-4">
+                      <span
+                        class="font-monospace small bg-primary bg-opacity-10 text-primary px-2 py-1 rounded fw-semibold"
+                        >{{ order.orderNumber }}</span
+                      >
+                    </td>
+                    <td>
+                      <span class="text-muted small">#{{ order.userId }}</span>
+                    </td>
+                    <td class="small">{{ order.createdAt | date: 'MMM d, y' }}</td>
+                    <td class="fw-bold text-dark">${{ order.total | number: '1.2-2' }}</td>
+                    <td>
+                      <span class="status-badge" [class]="getStatusClass(order.status)">
+                        {{ order.status }}
+                      </span>
+                    </td>
+                    <td class="pe-4 text-end">
+                      <a
+                        [routerLink]="['/orders', order.id]"
+                        class="btn btn-xs btn-outline-secondary rounded"
+                      >
+                        <i class="fas fa-eye me-1"></i>View
+                      </a>
+                    </td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4">
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white h-100">
+        <div class="card-header bg-white border-bottom-0 p-4 pb-2">
+          <h5 class="fw-bold mb-0 text-dark">Quick Navigation</h5>
+          <p class="text-muted mb-0 small">Jump to any section</p>
+        </div>
+        <div class="list-group list-group-flush border-0 p-2">
+          @for (link of quickLinks; track link.route) {
+            <a
+              [routerLink]="link.route"
+              class="list-group-item list-group-item-action border-0 rounded-3 px-3 py-2.5 d-flex align-items-center gap-3 mb-1 quick-link-item"
+            >
+              <div
+                class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                [style.background]="link.color + '20'"
+                [style.color]="link.color"
+                style="width: 40px; height: 40px; font-size: 1.1rem"
+              >
+                <i [class]="link.icon"></i>
+              </div>
+              <div class="flex-grow-1 min-w-0">
+                <span class="fw-bold text-dark small d-block text-truncate">{{ link.label }}</span>
+                <span class="text-muted small text-truncate d-block" style="font-size: 0.75rem">{{
+                  link.desc
+                }}</span>
+              </div>
+              <i class="fas fa-chevron-right text-muted small ms-auto quick-link-arrow"></i>
+            </a>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

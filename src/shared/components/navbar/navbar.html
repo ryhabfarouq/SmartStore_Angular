@@ -1,0 +1,137 @@
+<nav class="navbar navbar-expand-lg fixed-top" [class.scrolled]="isScrolled()">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/home">
+      SmartStore
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="toggleMobileMenu()"
+      aria-label="Toggle navigation"
+    >
+      <i
+        class="fas"
+        [class.fa-bars]="!isMobileMenuOpen()"
+        [class.fa-times]="isMobileMenuOpen()"
+      ></i>
+    </button>
+
+    <div class="collapse navbar-collapse" [class.show]="isMobileMenuOpen()">
+      <div class="navbar-search mx-auto">
+        <div class="search-wrapper">
+          <input
+            type="search"
+            class="search-input"
+            placeholder="Search products..."
+            [ngModel]="searchQuery()"
+            (ngModelChange)="searchQuery.set($event)"
+            (keyup.enter)="search()"
+            aria-label="Search products"
+          />
+          <button class="btn-search" (click)="search()" aria-label="Submit search">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+
+      <ul class="navbar-nav ms-auto align-items-center gap-1">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/home"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/products" routerLinkActive="active">Products</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link cart-link" routerLink="/cart" aria-label="Cart">
+            <i class="fas fa-shopping-bag"></i>
+            @if (cartCount > 0) {
+              <span class="cart-badge">{{ cartCount }}</span>
+            }
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/wishlist" aria-label="Wishlist">
+            <i class="far fa-heart"></i>
+          </a>
+        </li>
+
+        @if (user) {
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle user-menu"
+              href="#"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img [src]="user.avatar" [alt]="user.name" class="user-avatar" />
+              <span class="d-none d-md-inline">{{ user.name.split(' ')[0] }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end user-dropdown">
+              <li>
+                <div class="dropdown-header-info">
+                  <div class="fw-bold">{{ user.name }}</div>
+                  <div class="text-muted">{{ user.email }}</div>
+                  <span class="badge-role mt-1 d-inline-block">{{ user.role }}</span>
+                </div>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item" routerLink="/profile"
+                  ><i class="fas fa-user me-2"></i>My Profile</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/orders"
+                  ><i class="fas fa-box me-2"></i>My Orders</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/wishlist"
+                  ><i class="far fa-heart me-2"></i>Wishlist</a
+                >
+              </li>
+              @if (authService.isSeller()) {
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" routerLink="/seller/dashboard"
+                    ><i class="fas fa-store me-2"></i>Seller Dashboard</a
+                  >
+                </li>
+              }
+              @if (authService.isAdmin()) {
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" routerLink="/admin/dashboard"
+                    ><i class="fas fa-shield-alt me-2"></i>Admin Panel</a
+                  >
+                </li>
+              }
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item text-danger" (click)="logout()"
+                  ><i class="fas fa-sign-out-alt me-2"></i>Logout</a
+                >
+              </li>
+            </ul>
+          </li>
+        } @else {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/auth/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn-nav-register ms-1" routerLink="/auth/register">Register</a>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>

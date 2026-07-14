@@ -1,0 +1,391 @@
+<div class="min-vh-100 bg-light py-4 pt-navbar-offset">
+  <div class="container">
+    @if (isLoading()) {
+      <div class="text-center py-5 my-5">
+        <div
+          class="spinner-border text-primary"
+          role="status"
+          style="width: 3rem; height: 3rem"
+        ></div>
+        <div class="text-muted mt-3">Loading product details...</div>
+      </div>
+    } @else if (product(); as p) {
+      <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a routerLink="/home" class="text-decoration-none text-muted">Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a routerLink="/products" class="text-decoration-none text-muted">Products</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a
+              [routerLink]="['/products']"
+              [queryParams]="{ categoryId: p.categoryId }"
+              class="text-decoration-none text-muted"
+              >{{ p.category }}</a
+            >
+          </li>
+          <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">
+            {{ p.title }}
+          </li>
+        </ol>
+      </nav>
+
+      <div class="row g-4 g-lg-5 mb-5">
+        <div class="col-lg-6">
+          <div>
+            <div class="ratio ratio-4x3 border rounded-4 overflow-hidden mb-3 bg-white shadow-sm">
+              <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+                <img
+                  [src]="selectedImage()"
+                  [alt]="p.title"
+                  class="product-main-img w-100 h-100 object-fit-contain p-3"
+                />
+                @if (p.discountPercentage > 0) {
+                  <span class="badge-discount"> -{{ p.discountPercentage }}% </span>
+                }
+              </div>
+            </div>
+
+            @if (p.images && p.images.length > 1) {
+              <div class="d-flex gap-2 overflow-auto py-1">
+                @for (img of p.images; track img) {
+                  <button
+                    (click)="selectImage(img)"
+                    class="border rounded-3 overflow-hidden bg-white p-0 flex-shrink-0"
+                    [style.width.px]="80"
+                    [style.height.px]="60"
+                    [style.opacity]="selectedImage() === img ? '1' : '0.6'"
+                    [style.border-color]="selectedImage() === img ? 'var(--color-primary)' : ''"
+                    [style.border-width.px]="selectedImage() === img ? 2 : 1"
+                    style="transition: all 0.2s"
+                  >
+                    <img [src]="img" [alt]="p.title" class="w-100 h-100 object-fit-contain p-1" />
+                  </button>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div>
+            <span class="text-uppercase fw-bold text-primary mb-2 d-inline-block small">
+              {{ p.brand }}
+            </span>
+            <h1 class="fw-bold mb-2 text-dark fs-2">{{ p.title }}</h1>
+
+            <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+              <app-star-rating
+                [rating]="p.rating"
+                [showCount]="true"
+                [count]="reviews().length"
+              ></app-star-rating>
+              <span class="text-muted">|</span>
+              <span class="badge bg-light text-secondary border rounded-pill px-3 py-2 small">{{
+                p.category
+              }}</span>
+            </div>
+
+            <div class="p-3 bg-light rounded-4 mb-4 border d-flex align-items-center gap-3">
+              @if (p.discountPercentage > 0) {
+                <h3 class="fw-bold text-primary mb-0 fs-3">{{ discountedPrice() | currency }}</h3>
+                <span class="text-muted text-decoration-line-through">{{
+                  p.price | currency
+                }}</span>
+              } @else {
+                <h3 class="fw-bold text-primary mb-0 fs-3">{{ p.price | currency }}</h3>
+              }
+            </div>
+
+            <p class="text-muted mb-4">{{ p.description }}</p>
+
+            <div class="mb-4 d-flex align-items-center gap-2">
+              <span class="small fw-semibold text-muted">Availability:</span>
+              <span
+                class="status-badge"
+                [class.status-active]="p.stock > 0"
+                [class.status-cancelled]="p.stock === 0"
+              >
+                {{ p.stock > 0 ? 'In Stock (' + p.stock + ' left)' : 'Out of Stock' }}
+              </span>
+            </div>
+
+            @if (p.stock > 0) {
+              <div class="d-flex flex-column flex-sm-row gap-3 align-items-sm-center pt-2">
+                <div
+                  class="d-flex align-items-center border rounded-pill bg-white px-2"
+                  style="height: 48px"
+                >
+                  <button
+                    (click)="decrementQty()"
+                    class="btn btn-link py-1 px-2 text-dark text-decoration-none fw-bold"
+                    [disabled]="quantity() <= 1"
+                  >
+                    <i class="fas fa-minus small"></i>
+                  </button>
+                  <span class="px-3 fw-bold text-dark" class="text-center fw-bold px-2">{{
+                    quantity()
+                  }}</span>
+                  <button
+                    (click)="incrementQty()"
+                    class="btn btn-link py-1 px-2 text-dark text-decoration-none fw-bold"
+                    [disabled]="quantity() >= p.stock"
+                  >
+                    <i class="fas fa-plus small"></i>
+                  </button>
+                </div>
+
+                <button
+                  (click)="addToCart()"
+                  class="btn btn-primary rounded-pill px-5 py-2.5 fw-semibold flex-grow-1 shadow-sm d-flex align-items-center justify-content-center gap-2"
+                  style="height: 48px"
+                >
+                  <i class="fas fa-shopping-bag"></i>Add to Cart
+                </button>
+
+                <button
+                  (click)="toggleWishlist()"
+                  class="btn rounded-circle d-flex align-items-center justify-content-center p-0 shadow-sm border"
+                  [class.btn-danger]="isInWishlist"
+                  [class.btn-outline-danger]="!isInWishlist"
+                  [style.border-color]="!isInWishlist ? 'var(--color-danger)' : ''"
+                  style="width: 48px; height: 48px; transition: all 0.25s"
+                  title="Add to Wishlist"
+                >
+                  <i
+                    class="fa-heart"
+                    [class.fas]="isInWishlist"
+                    [class.far]="!isInWishlist"
+                    style="font-size: 1.2rem"
+                  ></i>
+                </button>
+              </div>
+            } @else {
+              <div
+                class="alert alert-warning rounded-4 border-0 shadow-sm d-flex align-items-center gap-3"
+              >
+                <i class="fas fa-exclamation-triangle fa-lg text-warning"></i>
+                <div>
+                  <span class="fw-semibold">Out of Stock!</span> This item is currently unavailable.
+                  Check back later or add to wishlist to get notified.
+                </div>
+              </div>
+
+              <button
+                (click)="toggleWishlist()"
+                class="btn rounded-pill px-4 py-2 fw-semibold d-flex align-items-center gap-2"
+                [class.btn-danger]="isInWishlist"
+                [class.btn-outline-danger]="!isInWishlist"
+              >
+                <i class="fa-heart" [class.fas]="isInWishlist" [class.far]="!isInWishlist"></i>
+                {{ isInWishlist ? 'Wishlisted' : 'Add to Wishlist' }}
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
+        <div class="card-header bg-light border-bottom p-0">
+          <ul class="nav nav-tabs border-0 flex-row">
+            <li class="nav-item m-0">
+              <button
+                (click)="activeTab.set('description')"
+                class="nav-link border-0 px-4 py-3 fw-bold position-relative text-uppercase small"
+                [class.active]="activeTab() === 'description'"
+                [style.color]="
+                  activeTab() === 'description' ? 'var(--color-primary)' : 'var(--color-text-muted)'
+                "
+                [style.border-bottom]="
+                  activeTab() === 'description'
+                    ? '2px solid var(--color-primary)'
+                    : '2px solid transparent'
+                "
+                style="background: transparent; border-radius: 0; transition: all 0.25s"
+              >
+                Product Details
+              </button>
+            </li>
+            <li class="nav-item m-0">
+              <button
+                (click)="activeTab.set('reviews')"
+                class="nav-link border-0 px-4 py-3 fw-bold position-relative text-uppercase small"
+                [class.active]="activeTab() === 'reviews'"
+                [style.color]="
+                  activeTab() === 'reviews' ? 'var(--color-primary)' : 'var(--color-text-muted)'
+                "
+                [style.border-bottom]="
+                  activeTab() === 'reviews'
+                    ? '2px solid var(--color-primary)'
+                    : '2px solid transparent'
+                "
+                style="background: transparent; border-radius: 0; transition: all 0.25s"
+              >
+                Customer Reviews ({{ reviews().length }})
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card-body p-4 p-md-5 bg-white">
+          @if (activeTab() === 'description') {
+            <div>
+              <h5 class="fw-bold mb-3 text-dark">Product Specifications</h5>
+              <p class="text-muted">{{ p.description }}</p>
+              <div class="row g-3 mt-3">
+                <div class="col-md-6">
+                  <table class="table table-sm table-borderless mb-0">
+                    <tbody>
+                      <tr>
+                        <td class="text-muted ps-0" style="width: 150px">Brand</td>
+                        <td class="fw-bold text-dark">{{ p.brand }}</td>
+                      </tr>
+                      <tr>
+                        <td class="text-muted ps-0">Category</td>
+                        <td class="fw-bold text-dark">{{ p.category }}</td>
+                      </tr>
+                      <tr>
+                        <td class="text-muted ps-0">Availability</td>
+                        <td class="fw-bold text-dark">
+                          {{ p.stock > 0 ? 'In Stock' : 'Out of Stock' }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <table class="table table-sm table-borderless mb-0">
+                    <tbody>
+                      @if (p.tags && p.tags.length > 0) {
+                        <tr>
+                          <td class="text-muted ps-0" style="width: 150px">Tags</td>
+                          <td class="fw-bold text-dark">{{ p.tags.join(', ') }}</td>
+                        </tr>
+                      }
+                      <tr>
+                        <td class="text-muted ps-0">Rating</td>
+                        <td class="fw-bold text-dark">{{ p.rating }} / 5</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (activeTab() === 'reviews') {
+            <div>
+              <div class="row g-4 g-lg-5">
+                <div class="col-lg-7">
+                  <h5 class="fw-bold mb-4 text-dark">Reviews from verified purchasers</h5>
+                  @if (reviews().length === 0) {
+                    <div class="text-center py-5 border rounded-4 bg-light bg-opacity-50">
+                      <i class="far fa-comments fa-3x text-muted mb-3"></i>
+                      <h6 class="fw-bold">No Reviews Yet</h6>
+                      <p class="text-muted small mb-0">Be the first to review this product!</p>
+                    </div>
+                  } @else {
+                    <div class="d-flex flex-column gap-3">
+                      @for (rev of reviews(); track rev.id) {
+                        <div
+                          class="p-3 border rounded-4 bg-white shadow-xs"
+                          style="transition: all 0.2s"
+                        >
+                          <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                            <div>
+                              <div class="fw-bold text-dark mb-1 small">{{ rev.userName }}</div>
+                              <app-star-rating [rating]="rev.rating"></app-star-rating>
+                            </div>
+                            <span class="text-muted small">{{
+                              rev.createdAt | date: 'mediumDate'
+                            }}</span>
+                          </div>
+                          <p class="text-muted mb-0 small">{{ rev.comment }}</p>
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <div class="col-lg-5">
+                  <div class="card border-0 bg-light p-4 rounded-4">
+                    <h5 class="fw-bold mb-3 text-dark">Write a Review</h5>
+
+                    @if (currentUser()) {
+                      <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Select Rating</label>
+                        <div class="d-flex gap-1 fs-4 text-warning">
+                          @for (star of [1, 2, 3, 4, 5]; track star) {
+                            <i
+                              (click)="selectRating(star)"
+                              class="cursor-pointer"
+                              [class.fas]="star <= newRating()"
+                              [class.far]="star > newRating()"
+                            ></i>
+                          }
+                        </div>
+                      </div>
+
+                      <div class="mb-4">
+                        <label class="form-label small fw-semibold text-muted"
+                          >Your Review Details</label
+                        >
+                        <textarea
+                          [(ngModel)]="newComment"
+                          class="form-control rounded-3"
+                          rows="4"
+                          placeholder="What did you like or dislike? Let other buyers know..."
+                        ></textarea>
+                      </div>
+
+                      <button
+                        (click)="submitReview()"
+                        [disabled]="isSubmittingReview()"
+                        class="btn btn-primary rounded-pill w-100 py-2.5 fw-semibold d-flex align-items-center justify-content-center gap-2 shadow-sm"
+                      >
+                        @if (isSubmittingReview()) {
+                          <span class="spinner-border spinner-border-sm" role="status"></span>
+                          Submitting...
+                        } @else {
+                          <i class="fas fa-paper-plane"></i>Submit Review
+                        }
+                      </button>
+                    } @else {
+                      <div class="text-center py-4">
+                        <i class="fas fa-lock fa-2x text-muted mb-3"></i>
+                        <h6 class="fw-bold">Login Required</h6>
+                        <p class="text-muted small">You must be logged in to review products.</p>
+                        <a
+                          routerLink="/auth/login"
+                          class="btn btn-primary btn-sm rounded-pill px-4 mt-2 fw-semibold"
+                          >Log In</a
+                        >
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (relatedProducts().length > 0) {
+        <div>
+          <h3 class="fw-bold mb-4 text-dark text-center text-sm-start">
+            Related Products You May Like
+          </h3>
+          <div class="row g-4">
+            @for (related of relatedProducts(); track related.id) {
+              <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <app-product-card [product]="related" [showActions]="true"></app-product-card>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

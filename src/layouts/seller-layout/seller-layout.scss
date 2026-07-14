@@ -1,0 +1,52 @@
+$sidebar-width: 240px;
+
+.seller-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #f0f2f8;
+}
+
+.seller-sidebar {
+  width: $sidebar-width;
+  background: linear-gradient(180deg, #00614f 0%, #007a63 100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-link {
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover, &.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: white !important;
+  }
+  &.active {
+    background: rgba(255, 255, 255, 0.25);
+  }
+  &.text-danger-link:hover {
+    background: rgba(255, 100, 100, 0.2);
+    color: #ffcccc !important;
+  }
+}
+
+.seller-main {
+  flex: 1;
+  margin-left: $sidebar-width;
+}
+
+@media (max-width: 768px) {
+  .seller-sidebar {
+    width: 0;
+    overflow: hidden;
+  }
+  .seller-main {
+    margin-left: 0;
+  }
+}

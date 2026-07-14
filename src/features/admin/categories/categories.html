@@ -1,0 +1,255 @@
+<div class="admin-categories-page py-4">
+  <div class="container-fluid px-md-4">
+
+    <div
+      class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4"
+    >
+      <div>
+        <h2 class="fw-bold mb-1 text-dark">Category Management</h2>
+        <p class="text-muted small mb-0">Organize and manage store catalog categories</p>
+      </div>
+      <div>
+        <button
+          (click)="openAddModal()"
+          class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm d-flex align-items-center gap-2"
+        >
+          <i class="fas fa-plus"></i>Add New Category
+        </button>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm p-3 rounded-4 mb-4">
+      <div class="input-group search-input">
+        <span class="input-group-text bg-white border-end-0 text-muted"
+          ><i class="fas fa-search"></i
+        ></span>
+        <input
+          type="text"
+          class="form-control border-start-0 py-2"
+          placeholder="Search categories..."
+          (input)="searchQuery.set(searchVal.value)"
+          #searchVal
+        />
+      </div>
+    </div>
+
+    @if (isLoading()) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <div class="text-muted mt-2 small">Loading categories...</div>
+      </div>
+    } @else {
+      @if (filteredCategories().length === 0) {
+        <div class="card border-0 shadow-sm rounded-4 text-center py-5 px-4 bg-white">
+          <div class="text-muted mb-3"><i class="fas fa-tags fa-3x"></i></div>
+          <h4 class="fw-bold">No Categories Found</h4>
+          <p class="text-muted small">No categories fit your search term.</p>
+        </div>
+      } @else {
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead class="bg-light text-dark small fw-semibold">
+                <tr>
+                  <th class="ps-4">Icon & Color</th>
+                  <th>Category Name</th>
+                  <th>Slug</th>
+                  <th class="text-center">Product Count</th>
+                  <th class="pe-4 text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (cat of filteredCategories(); track cat.id) {
+                  <tr>
+                    <td class="ps-4">
+                      <div
+                        class="icon-preview-box rounded-3 d-flex align-items-center justify-content-center text-white"
+                        [style.background-color]="cat.color"
+                      >
+                        <i [class]="cat.icon + ' fa-lg'"></i>
+                      </div>
+                    </td>
+                    <td class="fw-bold text-dark">{{ cat.name }}</td>
+                    <td>
+                      <code>{{ cat.slug }}</code>
+                    </td>
+                    <td class="text-center fw-semibold text-muted">{{ cat.productCount }}</td>
+                    <td class="pe-4 text-end">
+                      <div class="d-inline-flex gap-2">
+                        <button
+                          (click)="openEditModal(cat)"
+                          class="btn btn-sm btn-outline-primary rounded-circle action-btn"
+                          title="Edit"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button
+                          (click)="openDeleteModal(cat)"
+                          class="btn btn-sm btn-outline-danger rounded-circle action-btn"
+                          title="Delete"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    }
+
+    @if (showModal()) {
+      <div
+        class="modal fade show d-block"
+        tabindex="-1"
+        role="dialog"
+        style="background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px)"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content border-0 shadow-lg rounded-4 bg-white">
+            <div class="modal-header border-0 pb-0">
+              <h5 class="modal-title fw-bold">
+                {{ editingCategory() ? 'Edit Category' : 'Create Category' }}
+              </h5>
+              <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+
+            <form [formGroup]="categoryForm" (ngSubmit)="submitCategory()">
+              <div class="modal-body py-4">
+                <div class="row g-3">
+
+                  <div class="col-md-12">
+                    <label class="form-label fw-semibold">Category Name</label>
+                    <input
+                      type="text"
+                      class="form-control rounded-3"
+                      formControlName="name"
+                      [class.is-invalid]="isFieldInvalid('name')"
+                      placeholder="e.g. Smart Home Electronics"
+                    />
+                    <div class="invalid-feedback">Category name is required.</div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <label class="form-label fw-semibold">Font Awesome Icon Class</label>
+                    <input
+                      type="text"
+                      class="form-control rounded-3"
+                      formControlName="icon"
+                      [class.is-invalid]="isFieldInvalid('icon')"
+                      placeholder="e.g. fas fa-laptop"
+                    />
+                    <div class="invalid-feedback">Icon class is required.</div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <label class="form-label fw-semibold">Accent Color (Hex)</label>
+                    <div class="d-flex gap-2">
+                      <input
+                        type="color"
+                        class="form-control form-control-color rounded-3 p-1"
+                        formControlName="color"
+                        style="width: 48px; height: 38px"
+                      />
+                      <input
+                        type="text"
+                        class="form-control rounded-3"
+                        formControlName="color"
+                        [class.is-invalid]="isFieldInvalid('color')"
+                        placeholder="#6c5ce7"
+                      />
+                    </div>
+                    <div class="invalid-feedback">Color hex is required.</div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <label class="form-label fw-semibold">Banner Image URL</label>
+                    <input
+                      type="text"
+                      class="form-control rounded-3"
+                      formControlName="image"
+                      [class.is-invalid]="isFieldInvalid('image')"
+                      placeholder="https://example.com/category-banner.jpg"
+                    />
+                    <div class="invalid-feedback">Banner image URL is required.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer border-0">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary rounded-pill px-4"
+                  (click)="closeModal()"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  [disabled]="isSubmitting()"
+                  class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2"
+                >
+                  @if (isSubmitting()) {
+                    <span class="spinner-border spinner-border-sm"></span>
+                    Saving...
+                  } @else {
+                    <i class="fas fa-save"></i>Save Category
+                  }
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (showDeleteModal()) {
+      <div
+        class="modal fade show d-block"
+        tabindex="-1"
+        role="dialog"
+        style="background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px)"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content border-0 shadow-lg rounded-4 bg-white">
+            <div class="modal-header border-0 pb-0">
+              <h5 class="modal-title fw-bold">Delete Category?</h5>
+              <button type="button" class="btn-close" (click)="closeDeleteModal()"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+              <i class="fas fa-exclamation-triangle text-danger fa-3x mb-3 animate-pulse"></i>
+              <p class="mb-0">
+                Are you sure you want to delete category
+                <strong>{{ deletingCategory()?.name }}</strong
+                >?
+              </p>
+              <span class="text-muted small"
+                >Products under this category will not be deleted but will lose their category
+                association.</span
+              >
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+              <button
+                type="button"
+                class="btn btn-outline-secondary rounded-pill px-4"
+                (click)="closeDeleteModal()"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger rounded-pill px-4"
+                (click)="confirmDelete()"
+              >
+                Delete Category
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

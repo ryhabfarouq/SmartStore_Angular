@@ -1,0 +1,183 @@
+<div class="p-3">
+
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+    <div>
+      <h1 class="h2 fw-extrabold text-dark mb-1">User <span class="gradient-text">Management</span></h1>
+      <p class="text-muted mb-0 small">Manage all registered users and their permissions</p>
+    </div>
+    <button class="btn btn-primary rounded-pill px-4" (click)="loadUsers()">
+      <i class="fas fa-sync-alt me-2"></i>Refresh
+    </button>
+  </div>
+
+  <div class="card border-0 shadow-sm p-3 rounded-4 mb-4 bg-white">
+    <div class="d-flex align-items-center gap-3 flex-wrap">
+      <div class="input-group flex-grow-1" style="min-width: 240px;">
+        <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-search"></i></span>
+        <input
+          type="text"
+          class="form-control border-start-0 py-2"
+          placeholder="Search by name or email..."
+          (input)="onSearch($event)"
+        />
+      </div>
+      <div class="d-flex gap-2">
+        <select class="form-select py-2" style="min-width: 140px;" (change)="onRoleFilter($event)">
+          <option value="all">All Roles</option>
+          <option value="admin">Admin</option>
+          <option value="seller">Seller</option>
+          <option value="customer">Customer</option>
+        </select>
+        <select class="form-select py-2" style="min-width: 140px;" (change)="onStatusFilter($event)">
+          <option value="all">All Statuses</option>
+          <option value="active">Active</option>
+          <option value="pending">Pending</option>
+          <option value="restricted">Restricted</option>
+          <option value="deleted">Deleted</option>
+        </select>
+      </div>
+      <div class="ms-md-auto">
+        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-semibold">{{ filteredUsers().length }} users</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light text-dark small fw-semibold">
+          <tr>
+            <th class="ps-4 py-3">User</th>
+            <th class="py-3">Email</th>
+            <th class="py-3">Phone</th>
+            <th class="py-3">Role</th>
+            <th class="py-3">Status</th>
+            <th class="py-3">Joined</th>
+            <th class="pe-4 py-3 text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (isLoading()) {
+            @for (i of [1,2,3,4,5,6]; track i) {
+              <tr class="skeleton-row">
+                <td class="ps-4"><div class="d-flex align-items-center gap-2"><div class="skeleton-avatar"></div><div class="skeleton-text w-75"></div></div></td>
+                <td><div class="skeleton-text w-75"></div></td>
+                <td><div class="skeleton-text w-50"></div></td>
+                <td><div class="skeleton-text w-50"></div></td>
+                <td><div class="skeleton-text w-50"></div></td>
+                <td><div class="skeleton-text w-50"></div></td>
+                <td class="pe-4"><div class="skeleton-text w-75"></div></td>
+              </tr>
+            }
+          } @else if (filteredUsers().length === 0) {
+            <tr>
+              <td colspan="7" class="text-center py-5">
+                <div class="text-muted py-4">
+                  <i class="fas fa-users fa-2x mb-3 text-muted"></i>
+                  <p class="mb-0 small">No users found matching your criteria.</p>
+                </div>
+              </td>
+            </tr>
+          } @else {
+            @for (user of filteredUsers(); track user.id) {
+              <tr [class.opacity-50]="user.status === 'deleted'">
+
+                <td class="ps-4">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center overflow-hidden flex-shrink-0" class="avatar-sm">
+                      @if (user.avatar) {
+                        <img [src]="user.avatar" [alt]="user.name" class="w-100 h-100 object-fit-cover" />
+                      } @else {
+                        <span class="fw-bold text-uppercase" style="font-size: 0.9rem;">{{ user.name.charAt(0) }}</span>
+                      }
+                    </div>
+                    <div>
+                      <div class="fw-bold text-dark small">{{ user.name }}</div>
+                      <div class="text-muted" style="font-size: 0.75rem;">#{{ user.id }}</div>
+                    </div>
+                  </div>
+                </td>
+
+                <td>
+                  <span class="text-muted small">{{ user.email }}</span>
+                </td>
+
+                <td>
+                  <span class="text-muted small">{{ user.phone || '—' }}</span>
+                </td>
+
+                <td>
+                  <span class="badge rounded-pill px-3 py-1.5 fw-bold text-capitalize d-inline-flex align-items-center gap-1.5"
+                    [class.bg-primary]="user.role === 'admin'"
+                    [class.bg-success]="user.role === 'seller'"
+                    [class.bg-info]="user.role === 'customer'"
+                    [class.bg-opacity-10]="true"
+                    [class.text-primary]="user.role === 'admin'"
+                    [class.text-success]="user.role === 'seller'"
+                    [class.text-info]="user.role === 'customer'" class="text-xs"
+                  >
+                    <i class="fas"
+                      [class.fa-crown]="user.role === 'admin'"
+                      [class.fa-store]="user.role === 'seller'"
+                      [class.fa-user]="user.role === 'customer'"></i>
+                    {{ user.role }}
+                  </span>
+                </td>
+
+                <td>
+                  <span class="status-badge" [class]="getStatusClass(user.status)">{{ user.status }}</span>
+                </td>
+
+                <td>
+                  <span class="small text-muted">{{ user.createdAt | date:'MMM d, y' }}</span>
+                </td>
+
+                <td class="pe-4 text-end">
+                  <div class="d-inline-flex align-items-center gap-2">
+                    @if (user.status === 'pending') {
+                      <button
+                        class="btn btn-sm btn-success rounded-circle d-inline-flex align-items-center justify-content-center p-0"
+                        style="width: 30px; height: 30px; font-size: 0.75rem;"
+                        title="Approve"
+                        [disabled]="actionLoadingId() === user.id"
+                        (click)="approveUser(user)">
+                        <i class="fas fa-check"></i>
+                      </button>
+                    }
+                    @if (user.status !== 'restricted' && user.status !== 'deleted') {
+                      <button
+                        class="btn btn-sm btn-warning rounded-circle d-inline-flex align-items-center justify-content-center p-0 text-white"
+                        style="width: 30px; height: 30px; font-size: 0.75rem;"
+                        title="Restrict"
+                        [disabled]="actionLoadingId() === user.id"
+                        (click)="restrictUser(user)">
+                        <i class="fas fa-ban"></i>
+                      </button>
+                    }
+                    @if (user.status !== 'deleted') {
+                      <button
+                        class="btn btn-sm btn-danger rounded-circle d-inline-flex align-items-center justify-content-center p-0"
+                        style="width: 30px; height: 30px; font-size: 0.75rem;"
+                        title="Delete"
+                        [disabled]="actionLoadingId() === user.id"
+                        (click)="deleteUser(user)">
+                        @if (actionLoadingId() === user.id) {
+                          <i class="fas fa-spinner fa-spin"></i>
+                        } @else {
+                          <i class="fas fa-trash"></i>
+                        }
+                      </button>
+                    }
+                    @if (user.status === 'deleted') {
+                      <span class="text-muted small fst-italic">Deleted</span>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<app-loading-spinner />
+<div class="auth-wrapper">
+  <div class="row g-0 w-100">
+    <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center p-5 auth-panel-left">
+      <div style="max-width: 380px; width: 100%;">
+        <a href="/" class="auth-brand">
+
+          SmartStore
+        </a>
+        <h2 class="auth-headline">Your one-stop shop for everything</h2>
+        <p class="auth-sub">Thousands of products, unbeatable prices, delivered fast.</p>
+        <ul class="trust-list">
+          <li><i class="fas fa-shield-alt"></i> Secure payments with SSL encryption</li>
+          <li><i class="fas fa-truck"></i> Free delivery on orders over $100</li>
+          <li><i class="fas fa-undo"></i> Easy 30-day returns</li>
+          <li><i class="fas fa-headset"></i> 24/7 customer support</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-lg-6 auth-panel-right">
+      <div class="auth-card">
+        <router-outlet />
+      </div>
+    </div>
+  </div>
+</div>

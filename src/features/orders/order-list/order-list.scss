@@ -1,0 +1,16 @@
+.order-card {
+  border-left: 4px solid var(--color-border);
+  transition: var(--transition);
+
+  &:hover {
+    box-shadow: var(--shadow-md) !important;
+    transform: translateY(-2px);
+  }
+
+  &.status-border-placed, &.status-border-confirmed { border-left-color: var(--color-primary); }
+  &.status-border-processing { border-left-color: var(--color-warning); }
+  &.status-border-shipped { border-left-color: #00cec9; }
+  &.status-border-delivered { border-left-color: var(--color-secondary); }
+  &.status-border-cancelled { border-left-color: var(--color-danger); }
+  &.status-border-refunded { border-left-color: var(--color-primary-light); }
+}

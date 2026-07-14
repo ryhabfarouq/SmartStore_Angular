@@ -1,0 +1,189 @@
+<div class="container py-4 animate-fade-in pt-navbar-offset">
+
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+    <div>
+      <h1 class="mb-1 h2 fw-bold text-dark">My Orders</h1>
+      <div class="small text-muted">
+        <a routerLink="/home" class="text-decoration-none">Home</a>
+        <span class="mx-2 text-muted-50">›</span>
+        <span class="text-muted">Orders</span>
+      </div>
+    </div>
+    <div class="badge bg-primary-soft text-primary border border-primary border-opacity-25 px-3 py-2 rounded-pill fw-semibold">
+      <i class="fas fa-shopping-bag me-2"></i>
+      {{ orders().length }} Total Orders
+    </div>
+  </div>
+
+  <div class="nav nav-pills gap-2 mb-4">
+    <button
+      type="button"
+      class="nav-link px-3 py-2 rounded-3 d-flex align-items-center gap-2 fw-semibold border"
+      [class.active]="activeFilter() === 'all'"
+      [class.bg-primary]="activeFilter() === 'all'"
+      [class.text-white]="activeFilter() === 'all'"
+      [class.bg-white]="activeFilter() !== 'all'"
+      [class.text-secondary]="activeFilter() !== 'all'"
+      style="border-color: var(--color-border);"
+      (click)="setFilter('all')"
+    >
+      All
+      <span class="badge rounded-pill" [class.bg-light]="activeFilter() === 'all'" [class.text-primary]="activeFilter() === 'all'" [class.bg-secondary]="activeFilter() !== 'all'" [class.bg-opacity-10]="activeFilter() !== 'all'" [class.text-secondary]="activeFilter() !== 'all'">
+        {{ filterCounts.all }}
+      </span>
+    </button>
+    <button
+      type="button"
+      class="nav-link px-3 py-2 rounded-3 d-flex align-items-center gap-2 fw-semibold border"
+      [class.active]="activeFilter() === 'active'"
+      [class.bg-primary]="activeFilter() === 'active'"
+      [class.text-white]="activeFilter() === 'active'"
+      [class.bg-white]="activeFilter() !== 'active'"
+      [class.text-secondary]="activeFilter() !== 'active'"
+      style="border-color: var(--color-border);"
+      (click)="setFilter('active')"
+    >
+      Active
+      <span class="badge rounded-pill" [class.bg-light]="activeFilter() === 'active'" [class.text-primary]="activeFilter() === 'active'" [class.bg-secondary]="activeFilter() !== 'active'" [class.bg-opacity-10]="activeFilter() !== 'active'" [class.text-secondary]="activeFilter() !== 'active'">
+        {{ filterCounts.active }}
+      </span>
+    </button>
+    <button
+      type="button"
+      class="nav-link px-3 py-2 rounded-3 d-flex align-items-center gap-2 fw-semibold border"
+      [class.active]="activeFilter() === 'delivered'"
+      [class.bg-primary]="activeFilter() === 'delivered'"
+      [class.text-white]="activeFilter() === 'delivered'"
+      [class.bg-white]="activeFilter() !== 'delivered'"
+      [class.text-secondary]="activeFilter() !== 'delivered'"
+      style="border-color: var(--color-border);"
+      (click)="setFilter('delivered')"
+    >
+      Delivered
+      <span class="badge rounded-pill" [class.bg-light]="activeFilter() === 'delivered'" [class.text-primary]="activeFilter() === 'delivered'" [class.bg-secondary]="activeFilter() !== 'delivered'" [class.bg-opacity-10]="activeFilter() !== 'delivered'" [class.text-secondary]="activeFilter() !== 'delivered'">
+        {{ filterCounts.delivered }}
+      </span>
+    </button>
+    <button
+      type="button"
+      class="nav-link px-3 py-2 rounded-3 d-flex align-items-center gap-2 fw-semibold border"
+      [class.active]="activeFilter() === 'cancelled'"
+      [class.bg-primary]="activeFilter() === 'cancelled'"
+      [class.text-white]="activeFilter() === 'cancelled'"
+      [class.bg-white]="activeFilter() !== 'cancelled'"
+      [class.text-secondary]="activeFilter() !== 'cancelled'"
+      style="border-color: var(--color-border);"
+      (click)="setFilter('cancelled')"
+    >
+      Cancelled
+      <span class="badge rounded-pill" [class.bg-light]="activeFilter() === 'cancelled'" [class.text-primary]="activeFilter() === 'cancelled'" [class.bg-secondary]="activeFilter() !== 'cancelled'" [class.bg-opacity-10]="activeFilter() !== 'cancelled'" [class.text-secondary]="activeFilter() !== 'cancelled'">
+        {{ filterCounts.cancelled }}
+      </span>
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="d-flex flex-column gap-3 mb-4">
+      @for (i of [1,2,3]; track i) {
+        <div class="card p-4 placeholder-glow" style="border-left: 4px solid var(--color-border);">
+          <div class="d-flex justify-content-between mb-3">
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-2" style="height: 20px;"></span>
+          </div>
+          <div class="placeholder col-12 mb-3" style="height: 48px;"></div>
+          <div class="d-flex gap-2">
+            <span class="placeholder col-2" style="height: 38px;"></span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (!isLoading()) {
+    @if (filteredOrders().length === 0) {
+
+      <div class="card p-5 text-center border-0 bg-white shadow-sm rounded-4 my-4">
+        <div class="mx-auto mb-4 d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle" style="width: 80px; height: 80px;">
+          <i class="fas fa-shopping-bag fs-2"></i>
+        </div>
+        <h3 class="fw-bold text-dark mb-2">No orders yet</h3>
+        @if (activeFilter() === 'all') {
+          <p class="text-muted mx-auto mb-4" class="mw-380">You haven't placed any orders yet. Start shopping and explore our amazing products!</p>
+        } @else {
+          <p class="text-muted mx-auto mb-4" style="max-width: 380px;">No orders in this category. Try a different filter or browse all orders.</p>
+        }
+        <a routerLink="/products" class="btn btn-primary px-4 py-2 fw-semibold mx-auto">
+          <i class="fas fa-store me-2"></i>Browse Products
+        </a>
+      </div>
+    } @else {
+      <div class="d-flex flex-column gap-3">
+        @for (order of filteredOrders(); track order.id) {
+          <div class="card order-card" [class]="'status-border-' + order.status">
+
+            <div class="d-flex align-items-sm-center justify-content-between flex-column flex-sm-row p-3 border-bottom gap-2">
+              <div class="d-flex align-items-center gap-3 flex-wrap">
+                <span class="fw-bold text-dark">
+                  <i class="fas fa-hashtag me-1 text-muted"></i>{{ order.orderNumber }}
+                </span>
+                <span class="small text-muted">
+                  <i class="far fa-calendar-alt me-1"></i>{{ formatDate(order.createdAt) }}
+                </span>
+              </div>
+              <div class="status-badge" [class]="'status-' + (order.status === 'placed' ? 'pending' : order.status)">
+                <i [class]="getStatusIcon(order.status) + ' me-1'"></i>
+                {{ order.status | titlecase }}
+              </div>
+            </div>
+
+            <div class="d-flex align-items-sm-center justify-content-between flex-column flex-sm-row p-3 gap-3">
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                @for (item of order.items.slice(0, 4); track item.productId) {
+                  <div class="border rounded-2 overflow-hidden flex-shrink-0" style="width: 52px; height: 52px;" [title]="item.title">
+                    <img [src]="item.thumbnail" [alt]="item.title" class="w-100 h-100 object-fit-cover" />
+                  </div>
+                }
+                @if (order.items.length > 4) {
+                  <div class="bg-light border rounded-2 d-flex align-items-center justify-content-center fw-bold text-muted flex-shrink-0" style="width: 52px; height: 52px; font-size: 0.8rem;">
+                    +{{ order.items.length - 4 }}
+                  </div>
+                }
+              </div>
+              <div class="d-flex flex-column align-items-start align-items-sm-end gap-1">
+                <span class="small text-muted">
+                  {{ order.items.length }} item{{ order.items.length !== 1 ? 's' : '' }}
+                </span>
+                <span class="fs-4 fw-extrabold text-dark">${{ order.total.toFixed(2) }}</span>
+              </div>
+            </div>
+
+            @if (order.trackingNumber && order.status === 'shipped') {
+              <div class="p-2 px-3 bg-info bg-opacity-10 border-top border-info border-opacity-25 small text-info">
+                <i class="fas fa-map-marker-alt me-1"></i>
+                Tracking: <strong>{{ order.trackingNumber }}</strong>
+              </div>
+            }
+
+            <div class="d-flex align-items-center gap-2 p-3 border-top flex-wrap bg-light bg-opacity-25">
+              <a [routerLink]="['/orders', order.id]" class="btn btn-primary btn-sm px-3 fw-semibold">
+                <i class="fas fa-eye me-1"></i>View Details
+              </a>
+              @if (canCancel(order.status)) {
+                <button
+                  class="btn btn-outline-danger btn-sm px-3 fw-semibold"
+                  (click)="cancelOrder(order)"
+                  [disabled]="cancellingId() === order.id">
+                  @if (cancellingId() === order.id) {
+                    <i class="fas fa-spinner fa-spin me-1"></i>Cancelling...
+                  } @else {
+                    <i class="fas fa-times me-1"></i>Cancel Order
+                  }
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

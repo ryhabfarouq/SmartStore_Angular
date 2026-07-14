@@ -1,0 +1,424 @@
+<div class="admin-orders-page py-4">
+  <div class="container-fluid px-md-4">
+
+    <div class="mb-4">
+      <h2 class="fw-bold mb-1 text-dark">Order Management</h2>
+      <p class="text-muted small mb-0">
+        Track customer orders, process shipping, and manage statuses
+      </p>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-lg-3">
+        <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+          <div class="d-flex align-items-center gap-3">
+            <div class="stats-icon rounded-3 bg-primary-subtle text-primary">
+              <i class="fas fa-shopping-bag fa-lg"></i>
+            </div>
+            <div>
+              <h4 class="fw-bold mb-0">{{ totalOrdersCount() }}</h4>
+              <span class="text-muted small">Total Orders</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+          <div class="d-flex align-items-center gap-3">
+            <div class="stats-icon rounded-3 bg-success-subtle text-success">
+              <i class="fas fa-dollar-sign fa-lg"></i>
+            </div>
+            <div>
+              <h4 class="fw-bold mb-0">{{ totalRevenue() | currency }}</h4>
+              <span class="text-muted small">Revenue</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+          <div class="d-flex align-items-center gap-3">
+            <div class="stats-icon rounded-3 bg-warning-subtle text-warning">
+              <i class="fas fa-clock fa-lg"></i>
+            </div>
+            <div>
+              <h4 class="fw-bold mb-0">{{ pendingOrdersCount() }}</h4>
+              <span class="text-muted small">Pending Process</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+          <div class="d-flex align-items-center gap-3">
+            <div class="stats-icon rounded-3 bg-info-subtle text-info">
+              <i class="fas fa-check-double fa-lg"></i>
+            </div>
+            <div>
+              <h4 class="fw-bold mb-0">{{ completedOrdersCount() }}</h4>
+              <span class="text-muted small">Completed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm p-3 rounded-4 mb-4 bg-white">
+      <div class="row g-3 align-items-center">
+
+        <div class="col-md-5">
+          <div class="input-group search-input">
+            <span class="input-group-text bg-white border-end-0 text-muted"
+              ><i class="fas fa-search"></i
+            ></span>
+            <input
+              type="text"
+              class="form-control border-start-0 py-2"
+              placeholder="Search by Order# or Customer..."
+              (input)="searchQuery.set(searchVal.value)"
+              #searchVal
+            />
+          </div>
+        </div>
+
+        <div class="col-md-7">
+          <div class="d-flex flex-wrap gap-1.5 justify-content-md-end">
+            <button
+              (click)="statusFilter.set('all')"
+              class="btn btn-sm rounded-pill px-3"
+              [class.btn-primary]="statusFilter() === 'all'"
+              [class.btn-outline-secondary]="statusFilter() !== 'all'"
+            >
+              All
+            </button>
+            <button
+              (click)="statusFilter.set('placed')"
+              class="btn btn-sm rounded-pill px-3"
+              [class.btn-primary]="statusFilter() === 'placed'"
+              [class.btn-outline-secondary]="statusFilter() !== 'placed'"
+            >
+              Placed
+            </button>
+            <button
+              (click)="statusFilter.set('confirmed')"
+              class="btn btn-sm rounded-pill px-3"
+              [class.btn-primary]="statusFilter() === 'confirmed'"
+              [class.btn-outline-secondary]="statusFilter() !== 'confirmed'"
+            >
+              Confirmed
+            </button>
+            <button
+              (click)="statusFilter.set('processing')"
+              class="btn btn-sm rounded-pill px-3"
+              [class.btn-primary]="statusFilter() === 'processing'"
+              [class.btn-outline-secondary]="statusFilter() !== 'processing'"
+            >
+              Processing
+            </button>
+            <button
+              (click)="statusFilter.set('shipped')"
+              class="btn btn-sm rounded-pill px-3"
+              [class.btn-primary]="statusFilter() === 'shipped'"
+              [class.btn-outline-secondary]="statusFilter() !== 'shipped'"
+            >
+              Shipped
+            </button>
+            <button
+              (click)="statusFilter.set('delivered')"
+              class="btn btn-sm rounded-pill px-3"
+              [class.btn-primary]="statusFilter() === 'delivered'"
+              [class.btn-outline-secondary]="statusFilter() !== 'delivered'"
+            >
+              Delivered
+            </button>
+            <button
+              (click)="statusFilter.set('cancelled')"
+              class="btn btn-sm rounded-pill px-3"
+              [class.btn-primary]="statusFilter() === 'cancelled'"
+              [class.btn-outline-secondary]="statusFilter() !== 'cancelled'"
+            >
+              Cancelled
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @if (isLoading() && orders().length === 0) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <div class="text-muted mt-2 small">Loading orders...</div>
+      </div>
+    } @else {
+      @if (filteredOrders().length === 0) {
+        <div class="card border-0 shadow-sm rounded-4 text-center py-5 px-4 bg-white">
+          <div class="text-muted mb-3"><i class="fas fa-receipt fa-3x"></i></div>
+          <h4 class="fw-bold">No Orders Found</h4>
+          <p class="text-muted small">
+            No order records match your selected filter or search query.
+          </p>
+        </div>
+      } @else {
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead class="bg-light text-dark small fw-semibold">
+                <tr>
+                  <th class="ps-4">Order Number</th>
+                  <th>Customer</th>
+                  <th>Date Placed</th>
+                  <th class="text-center">Items Count</th>
+                  <th>Total Price</th>
+                  <th>Status</th>
+                  <th class="text-center">Quick Action</th>
+                  <th class="pe-4 text-end">Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (o of filteredOrders(); track o.id) {
+                  <tr>
+                    <td class="ps-4">
+                      <span class="fw-bold text-dark">{{ o.orderNumber }}</span>
+                    </td>
+                    <td>
+                      <div class="fw-semibold text-dark">{{ o.customerName }}</div>
+                      <div class="text-muted small">{{ o.customerEmail }}</div>
+                    </td>
+                    <td>{{ o.createdAt | date: 'medium' }}</td>
+                    <td class="text-center fw-semibold text-muted">{{ o.items.length }}</td>
+                    <td class="fw-bold text-dark">{{ o.total | currency }}</td>
+                    <td>
+                      <span [class]="getStatusBadgeClass(o.status)">
+                        {{ o.status | uppercase }}
+                      </span>
+                    </td>
+                    <td class="text-center">
+                      <div class="d-inline-block position-relative">
+                        <select
+                          [value]="o.status"
+                          (change)="updateOrderStatus(o.id, $any($event.target).value)"
+                          [disabled]="updatingOrderId() === o.id"
+                          class="form-select form-select-sm rounded-pill status-dropdown"
+                        >
+                          @for (st of availableStatuses; track st) {
+                            <option [value]="st">{{ st | titlecase }}</option>
+                          }
+                        </select>
+                        @if (updatingOrderId() === o.id) {
+                          <span
+                            class="spinner-border spinner-border-sm text-primary position-absolute end-0 top-50 translate-middle-y me-4"
+                            role="status"
+                          ></span>
+                        }
+                      </div>
+                    </td>
+                    <td class="pe-4 text-end">
+                      <button
+                        (click)="openDetails(o)"
+                        class="btn btn-sm btn-outline-primary rounded-pill px-3"
+                      >
+                        <i class="fas fa-eye me-1.5"></i>Inspect
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    }
+
+    @if (showDetailModal() && selectedOrder(); as order) {
+      <div
+        class="modal fade show d-block"
+        tabindex="-1"
+        role="dialog"
+        style="background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px)"
+      >
+        <div
+          class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+          role="document"
+        >
+          <div class="modal-content border-0 shadow-lg rounded-4 bg-white">
+            <div class="modal-header border-0 pb-0">
+              <div>
+                <h5 class="modal-title fw-bold mb-0">Order Breakdown</h5>
+                <span class="text-muted small">No: {{ order.orderNumber }}</span>
+              </div>
+              <button type="button" class="btn-close" (click)="closeDetails()"></button>
+            </div>
+
+            <div class="modal-body py-4">
+
+              <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded-4 h-100">
+                    <h6 class="fw-bold mb-2.5 text-dark">
+                      <i class="fas fa-user me-2 text-primary"></i>Customer Information
+                    </h6>
+                    <div class="small mb-1">
+                      <span class="text-muted">Name:</span>
+                      <strong class="text-dark">{{ order.customerName }}</strong>
+                    </div>
+                    <div class="small mb-1">
+                      <span class="text-muted">Email:</span>
+                      <strong class="text-dark">{{ order.customerEmail }}</strong>
+                    </div>
+                    <div class="small mb-1">
+                      <span class="text-muted">Payment:</span>
+                      <strong class="text-dark">{{ order.paymentMethod | uppercase }}</strong> ({{
+                        order.paymentStatus | uppercase
+                      }})
+                    </div>
+                    @if (order.notes) {
+                      <div class="small mt-2 p-2 bg-white rounded border text-muted">
+                        <strong>Notes:</strong> {{ order.notes }}
+                      </div>
+                    }
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded-4 h-100">
+                    <h6 class="fw-bold mb-2.5 text-dark">
+                      <i class="fas fa-shipping-fast me-2 text-primary"></i>Shipping Destination
+                    </h6>
+                    <div class="small text-dark fw-semibold">
+                      {{ order.shippingAddress.street }}
+                    </div>
+                    <div class="small text-muted">
+                      {{ order.shippingAddress.city }}, {{ order.shippingAddress.state }}
+                      {{ order.shippingAddress.zip }}
+                    </div>
+                    <div class="small text-muted mb-2">{{ order.shippingAddress.country }}</div>
+                    <div class="small">
+                      <span class="text-muted">Tracking No:</span>
+                      <strong class="text-dark">{{
+                        order.trackingNumber || 'Not assigned'
+                      }}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="p-3 bg-light rounded-4 mb-4 d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3"
+              >
+                <div>
+                  <h6 class="fw-bold mb-1 text-dark">Order Status Timeline</h6>
+                  <span class="text-muted small"
+                    >Current:
+                    <span [class]="getStatusBadgeClass(order.status)">{{
+                      order.status | uppercase
+                    }}</span></span
+                  >
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <label class="small fw-bold text-dark text-nowrap mb-0">Update Status:</label>
+                  <select
+                    [value]="order.status"
+                    (change)="updateOrderStatus(order.id, $any($event.target).value)"
+                    [disabled]="updatingOrderId() === order.id"
+                    class="form-select form-select-sm rounded-pill"
+                    style="width: 150px"
+                  >
+                    @for (st of availableStatuses; track st) {
+                      <option [value]="st">{{ st | titlecase }}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+              <h6 class="fw-bold mb-3 text-dark">Ordered Items</h6>
+              <div class="border rounded-4 overflow-hidden mb-4">
+                <div class="table-responsive">
+                  <table class="table align-middle mb-0 text-nowrap">
+                    <thead class="bg-light text-dark small fw-semibold">
+                      <tr>
+                        <th class="ps-3">Product</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="pe-3 text-end">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (item of order.items; track item.productId) {
+                        <tr>
+                          <td class="ps-3">
+                            <div class="d-flex align-items-center gap-3">
+                              <img
+                                [src]="item.thumbnail"
+                                class="rounded border"
+                                style="width: 42px; height: 42px; object-fit: cover"
+                              />
+                              <div
+                                class="fw-semibold text-dark text-truncate"
+                                style="max-width: 250px"
+                                [title]="item.title"
+                              >
+                                {{ item.title }}
+                              </div>
+                            </div>
+                          </td>
+                          <td class="text-center">{{ item.price | currency }}</td>
+                          <td class="text-center fw-bold">{{ item.quantity }}</td>
+                          <td class="pe-3 text-end fw-bold text-dark">
+                            {{ item.subtotal | currency }}
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="row justify-content-end">
+                <div class="col-md-5">
+                  <div class="card border-0 bg-light p-3 rounded-4">
+                    <div class="d-flex justify-content-between mb-2 small">
+                      <span class="text-muted">Subtotal:</span>
+                      <span class="fw-bold text-dark">{{ order.subtotal | currency }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2 small">
+                      <span class="text-muted">Shipping:</span>
+                      <span class="fw-bold text-dark">{{
+                        order.shippingCost === 0 ? 'FREE' : (order.shippingCost | currency)
+                      }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2 small">
+                      <span class="text-muted">Tax (9%):</span>
+                      <span class="fw-bold text-dark">{{ order.tax | currency }}</span>
+                    </div>
+                    @if (order.discount > 0) {
+                      <div class="d-flex justify-content-between mb-2 small text-danger">
+                        <span>Discount:</span>
+                        <span>-{{ order.discount | currency }}</span>
+                      </div>
+                    }
+                    <hr class="my-2" />
+                    <div class="d-flex justify-content-between">
+                      <span class="fw-bold text-dark">Grand Total:</span>
+                      <span class="fw-extrabold text-primary fs-5">{{
+                        order.total | currency
+                      }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer border-0">
+              <button
+                type="button"
+                class="btn btn-primary rounded-pill px-4"
+                (click)="closeDetails()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

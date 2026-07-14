@@ -1,0 +1,76 @@
+<footer class="footer">
+  <div class="footer-top">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="footer-brand mb-3">SmartStore</div>
+          <p class="footer-desc">
+            Your premium destination for everything you love. Shop smart, shop SmartStore.
+          </p>
+          <div class="social-links mt-3">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-4">
+          <h6 class="footer-heading">Shop</h6>
+          <ul class="footer-links">
+            <li><a routerLink="/products">All Products</a></li>
+            <li>
+              <a routerLink="/products" [queryParams]="{ category: 'electronics' }">Electronics</a>
+            </li>
+            <li><a routerLink="/products" [queryParams]="{ category: 'beauty' }">Beauty</a></li>
+            <li>
+              <a routerLink="/products" [queryParams]="{ category: 'furniture' }">Furniture</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-4">
+          <h6 class="footer-heading">Account</h6>
+          <ul class="footer-links">
+            <li><a routerLink="/profile">My Profile</a></li>
+            <li><a routerLink="/orders">My Orders</a></li>
+            <li><a routerLink="/wishlist">Wishlist</a></li>
+            <li><a routerLink="/cart">Cart</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-4">
+          <h6 class="footer-heading">Support</h6>
+          <ul class="footer-links">
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2">
+          <h6 class="footer-heading">Contact</h6>
+          <ul class="footer-contact">
+            <li><i class="fas fa-envelope me-2"></i>ryhabfarouq73@gmail.com</li>
+            <li><i class="fas fa-clock me-2"></i>Mon–Fri, 9am–6pm EST</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <p class="mb-0">&copy; {{ currentYear }} SmartStore. All rights reserved.</p>
+        <div class="payment-icons d-flex gap-2 align-items-center">
+          <i class="fab fa-cc-visa fa-lg"></i>
+          <i class="fab fa-cc-mastercard fa-lg"></i>
+          <i class="fab fa-cc-paypal fa-lg"></i>
+          <i class="fab fa-cc-stripe fa-lg"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

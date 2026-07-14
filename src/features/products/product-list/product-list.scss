@@ -1,0 +1,39 @@
+.products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .product-item {
+    app-product-card {
+      ::ng-deep .product-card {
+        display: flex;
+        flex-direction: row !important;
+        align-items: center;
+
+        a {
+          flex: 0 0 180px;
+
+          @media (max-width: 576px) {
+            flex: 0 0 120px;
+          }
+        }
+
+        .card-body {
+          flex: 1;
+        }
+      }
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.hover-danger:hover {
+  color: var(--color-danger) !important;
+}
+
+
+

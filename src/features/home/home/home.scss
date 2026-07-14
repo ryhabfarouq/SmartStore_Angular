@@ -1,0 +1,47 @@
+.trust-bar {
+  background: #0f0a28;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.825rem;
+  color: rgba(255, 255, 255, 0.65);
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.cat-tile {
+  transition: border-color 0.15s, box-shadow 0.15s;
+  border-color: var(--color-border) !important;
+
+  &:hover {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 2px 8px rgba(108, 92, 231, 0.1);
+  }
+
+  .cat-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+  }
+}
+
+.promo-banner {
+  background: #fff;
+  border: 1px solid var(--color-border);
+
+  .promo-banner-right {
+    background: var(--color-primary);
+  }
+}
+
+.skeleton-pulse {
+  background: linear-gradient(90deg, #f0f2f5 25%, #e8ecf4 50%, #f0f2f5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}

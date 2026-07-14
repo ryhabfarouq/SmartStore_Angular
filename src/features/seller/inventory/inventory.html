@@ -1,0 +1,162 @@
+<div class="seller-inventory-page py-4">
+  <div class="container-fluid px-md-4">
+    <div class="mb-4">
+      <h2 class="fw-bold mb-1 text-dark">Stock Control Center</h2>
+      <p class="text-muted small mb-0">
+        Quickly monitor stock alerts and update inventory quantities
+      </p>
+    </div>
+
+    <div class="card border-0 shadow-sm p-3 rounded-4 mb-4">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-6 col-lg-7">
+          <div class="input-group search-input">
+            <span class="input-group-text bg-white border-end-0 text-muted"
+              ><i class="fas fa-search"></i
+            ></span>
+            <input
+              type="text"
+              class="form-control border-start-0 py-2"
+              placeholder="Search product title or brand..."
+              [(ngModel)]="searchQuery"
+            />
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <div class="d-flex gap-2">
+            <button
+              (click)="stockFilter.set('all')"
+              class="btn btn-sm rounded-pill flex-grow-1"
+              [class.btn-primary]="stockFilter() === 'all'"
+              [class.btn-outline-secondary]="stockFilter() !== 'all'"
+            >
+              All Items
+            </button>
+            <button
+              (click)="stockFilter.set('low')"
+              class="btn btn-sm rounded-pill flex-grow-1"
+              [class.btn-warning]="stockFilter() === 'low'"
+              [class.btn-outline-warning]="stockFilter() !== 'low'"
+            >
+              Low Stock
+            </button>
+            <button
+              (click)="stockFilter.set('out')"
+              class="btn btn-sm rounded-pill flex-grow-1"
+              [class.btn-danger]="stockFilter() === 'out'"
+              [class.btn-outline-danger]="stockFilter() !== 'out'"
+            >
+              Out of Stock
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @if (isLoading()) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <div class="text-muted mt-2 small">Loading inventory list...</div>
+      </div>
+    } @else {
+      @if (filteredProducts().length === 0) {
+        <div class="card border-0 shadow-sm rounded-4 text-center py-5 px-4 bg-white">
+          <div class="text-muted mb-3"><i class="fas fa-clipboard-list fa-3x"></i></div>
+          <h4 class="fw-bold">No Products Found</h4>
+          <p class="text-muted small mb-0">No product matches your filters or search criteria.</p>
+        </div>
+      } @else {
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead class="bg-light text-dark small fw-semibold">
+                <tr>
+                  <th class="ps-4">Product details</th>
+                  <th>Price</th>
+                  <th class="text-center">Alert Status</th>
+                  <th class="text-center">Adjust Stock Qty</th>
+                  <th class="pe-4 text-end">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (prod of filteredProducts(); track prod.id) {
+                  <tr>
+                    <td class="ps-4">
+                      <div class="d-flex align-items-center gap-3">
+                        <img
+                          [src]="prod.thumbnail"
+                          [alt]="prod.title"
+                          class="product-thumb rounded border"
+                        />
+                        <div>
+                          <div class="fw-bold text-dark mb-1">{{ prod.title }}</div>
+                          <div class="text-muted small">
+                            Brand: {{ prod.brand }} | ID: #{{ prod.id }}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="fw-semibold">{{ prod.price | currency }}</td>
+
+                    <td class="text-center">
+                      <span [class]="getStockBadgeClass(prod.stock)">
+                        {{ getStockLabel(prod.stock) }}
+                      </span>
+                    </td>
+
+                    <td class="text-center">
+                      <div
+                        class="qty-adjuster d-inline-flex align-items-center border rounded-pill bg-light p-1"
+                      >
+                        <button
+                          (click)="adjustStock(prod.id, -1)"
+                          class="btn btn-sm btn-link text-decoration-none text-dark p-1"
+                          [disabled]="stockUpdates()[prod.id] <= 0"
+                        >
+                          <i class="fas fa-minus small"></i>
+                        </button>
+
+                        <input
+                          type="number"
+                          class="form-control form-control-sm text-center bg-transparent border-0 fw-bold px-1"
+                          style="width: 55px; outline: none; box-shadow: none"
+                          [ngModel]="stockUpdates()[prod.id]"
+                          (ngModelChange)="onStockChange(prod.id, $event)"
+                          min="0"
+                        />
+
+                        <button
+                          (click)="adjustStock(prod.id, 1)"
+                          class="btn btn-sm btn-link text-decoration-none text-dark p-1"
+                        >
+                          <i class="fas fa-plus small"></i>
+                        </button>
+                      </div>
+                    </td>
+
+                    <td class="pe-4 text-end">
+                      <button
+                        (click)="saveStock(prod)"
+                        [disabled]="
+                          isSubmittingId() === prod.id || stockUpdates()[prod.id] === prod.stock
+                        "
+                        class="btn btn-primary btn-sm rounded-pill px-3 py-1.5 fw-semibold d-inline-flex align-items-center gap-1.5 shadow-sm"
+                      >
+                        @if (isSubmittingId() === prod.id) {
+                          <span class="spinner-border spinner-border-sm"></span>
+                        } @else {
+                          <i class="fas fa-save"></i>Save
+                        }
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

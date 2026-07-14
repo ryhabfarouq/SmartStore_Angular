@@ -1,0 +1,52 @@
+{
+  "name": "app",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "server": "npx json-server db.json --watch --port 2000",
+    "dev": "start npm run server && ng serve"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "private": true,
+  "packageManager": "npm@11.11.0",
+  "dependencies": {
+    "@angular/animations": "21.2.11",
+    "@angular/common": "21.2.11",
+    "@angular/compiler": "21.2.11",
+    "@angular/core": "21.2.11",
+    "@angular/forms": "21.2.11",
+    "@angular/platform-browser": "21.2.11",
+    "@angular/router": "21.2.11",
+    "@fortawesome/fontawesome-free": "^7.2.0",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.8",
+    "ngx-toastr": "^20.0.5",
+    "please-upgrade-node": "^3.2.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "21.2.9",
+    "@angular/cli": "21.2.9",
+    "@angular/compiler-cli": "21.2.11",
+    "jsdom": "^27.1.0",
+    "json-server": "^0.17.4",
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
+  }
+}

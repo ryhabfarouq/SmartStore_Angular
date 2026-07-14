@@ -1,0 +1,202 @@
+<div class="py-5 bg-light pt-navbar-offset">
+  <div class="container">
+    @if (isLoading()) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <div class="text-muted mt-3">Loading your order details...</div>
+      </div>
+    } @else if (order(); as o) {
+      <div
+        class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-5"
+      >
+        <div>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a routerLink="/orders" class="text-decoration-none text-muted">My Orders</a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">#SW-{{ o.id }}</li>
+            </ol>
+          </nav>
+          <div class="d-flex align-items-center gap-3">
+            <h2 class="fw-bold mb-0">Order #SW-{{ o.id }}</h2>
+            <span class="badge rounded-pill status-badge" [ngClass]="getStatusBadgeClass(o.status)">
+              {{ o.status | uppercase }}
+            </span>
+          </div>
+          <div class="text-muted mt-1 small">Placed on {{ formatDate(o.createdAt) }}</div>
+        </div>
+
+        <div>
+          @if (canCancel()) {
+            <button
+              (click)="cancelOrder()"
+              [disabled]="isCancelling()"
+              class="btn btn-outline-danger rounded-pill px-4"
+            >
+              @if (isCancelling()) {
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                Cancelling Order...
+              } @else {
+                <i class="fas fa-times me-2"></i>Cancel Order
+              }
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm p-4 p-md-5 rounded-4 mb-5">
+        <h4 class="fw-bold mb-4">Tracking Details</h4>
+
+        <div class="order-timeline-wrapper">
+          <div class="timeline-line"></div>
+          <div class="row g-4 justify-content-between text-center position-relative">
+            @for (step of timelineSteps; track step.status) {
+              @let statusState = getStepStatus(step);
+              @let timeEntry = getTimelineEntry(step.status);
+
+              <div class="col-md col-6 timeline-node-col">
+                <div
+                  class="timeline-node mx-auto mb-3"
+                  [class.completed]="statusState === 'completed'"
+                  [class.active]="statusState === 'active'"
+                  [class.pending]="statusState === 'pending'"
+                >
+                  <i [class]="step.icon"></i>
+                </div>
+
+                <div
+                  class="fw-bold small node-label"
+                  [class.text-primary]="statusState === 'active'"
+                  [class.text-muted]="statusState === 'pending'"
+                >
+                  {{ step.label }}
+                </div>
+
+                <div class="text-muted text-description d-none d-md-block">
+                  {{ step.description }}
+                </div>
+
+                @if (timeEntry) {
+                  <div class="timeline-date small mt-1 text-success fw-semibold">
+                    {{ formatShortDate(timeEntry.timestamp) }}
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <div class="card border-0 shadow-sm p-4 rounded-4 mb-4">
+            <h4 class="fw-bold mb-4">Ordered Items</h4>
+
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr class="text-muted small border-bottom">
+                    <th>Product</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Qty</th>
+                    <th class="text-end">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (item of o.items; track item.productId) {
+                    <tr>
+                      <td>
+                        <div class="d-flex align-items-center gap-3">
+                          <img
+                            [src]="item.thumbnail"
+                            [alt]="item.title"
+                            class="rounded-3 border"
+                            style="
+                              width: 60px;
+                              height: 60px;
+                              object-fit: cover;
+                              background-color: #f8fafc;
+                            "
+                          />
+                          <div>
+                            <div class="fw-bold">{{ item.title }}</div>
+                            <div class="text-muted small">ID: #{{ item.productId }}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-center">{{ item.price | currency }}</td>
+                      <td class="text-center fw-semibold text-muted">{{ item.quantity }}</td>
+                      <td class="text-end fw-bold">{{ item.subtotal | currency }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card border-0 shadow-sm p-4 rounded-4 mb-4">
+            <h4 class="fw-bold mb-4">Order Summary</h4>
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex justify-content-between text-muted">
+                <span>Items Subtotal</span>
+                <span>{{ o.subtotal | currency }}</span>
+              </div>
+              @if (o.discount && o.discount > 0) {
+                <div class="d-flex justify-content-between text-success">
+                  <span>Product Discount</span>
+                  <span>-{{ o.discount | currency }}</span>
+                </div>
+              }
+              <div class="d-flex justify-content-between text-muted">
+                <span>Shipping Cost</span>
+                <span>{{ o.shippingCost === 0 ? 'FREE' : (o.shippingCost | currency) }}</span>
+              </div>
+              <div class="d-flex justify-content-between text-muted">
+                <span>Estimated Tax (9%)</span>
+                <span>{{ o.tax | currency }}</span>
+              </div>
+              <hr class="my-2" />
+              <div class="d-flex justify-content-between align-items-center fw-bold fs-5 text-dark">
+                <span>Total Amount</span>
+                <span>{{ o.total | currency }}</span>
+              </div>
+
+              <div
+                class="payment-method-block mt-4 p-3 bg-light rounded-3 d-flex align-items-center justify-content-between"
+              >
+                <div>
+                  <div class="small text-muted mb-1">Payment Method</div>
+                  <div class="fw-bold text-dark">{{ getPaymentMethodLabel(o.paymentMethod) }}</div>
+                </div>
+                <div class="fs-4 text-primary">
+                  <i [class]="getPaymentMethodIcon(o.paymentMethod)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card border-0 shadow-sm p-4 rounded-4">
+            <h4 class="fw-bold mb-4">Shipping Details</h4>
+            @if (o.shippingAddress; as addr) {
+              <div class="d-flex gap-3 align-items-start">
+                <div class="bg-primary-soft text-primary p-3 rounded-3">
+                  <i class="fas fa-map-marker-alt fa-lg"></i>
+                </div>
+                <div>
+                  <div class="fw-bold">{{ o.shippingAddress.street }}</div>
+                  <div class="text-muted small">
+                    {{ addr.city }}, {{ addr.state }} {{ addr.zip }}<br />
+                    {{ addr.country }}
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,61 @@
+$sidebar-width: 260px;
+$sidebar-collapsed-width: 72px;
+
+.admin-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #f0f2f8;
+}
+
+.admin-sidebar {
+  width: $sidebar-width;
+  background: linear-gradient(180deg, #0f0a28 0%, #1a1040 100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  transition: width 0.3s ease;
+}
+
+.sidebar-collapsed .admin-sidebar {
+  width: $sidebar-collapsed-width;
+  .brand-name, .sidebar-user-info, .nav-section-label, span { display: none; }
+  .sidebar-link { justify-content: center; }
+  .sidebar-brand { justify-content: center; }
+}
+
+.sidebar-link {
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover, &.active {
+    background: rgba(108, 92, 231, 0.2);
+    color: white !important;
+  }
+  &.active {
+    background: var(--color-primary);
+  }
+  &.text-danger-hover:hover {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b !important;
+  }
+}
+
+.admin-main {
+  flex: 1;
+  margin-left: $sidebar-width;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar-collapsed .admin-main {
+  margin-left: $sidebar-collapsed-width;
+}
+
+@media (max-width: 991px) {
+  .admin-sidebar { width: 0; overflow: hidden; }
+  .sidebar-collapsed .admin-sidebar { width: $sidebar-width; }
+  .admin-main { margin-left: 0; }
+  .sidebar-collapsed .admin-main { margin-left: 0; }
+}

@@ -1,0 +1,75 @@
+<app-loading-spinner />
+<div class="admin-wrapper" [class.sidebar-collapsed]="sidebarCollapsed">
+
+  <aside class="admin-sidebar d-flex flex-column">
+    <div class="sidebar-header d-flex align-items-center justify-content-between px-3 py-4 border-bottom border-white border-opacity-10">
+      <a routerLink="/home" class="sidebar-brand d-flex align-items-center gap-2 text-white text-decoration-none fs-5 fw-bold">
+        <span class="brand-name">SmartStore</span>
+      </a>
+      <button class="sidebar-toggle btn btn-link text-white-50 p-1 border-0" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    @if (user(); as u) {
+      <div class="sidebar-user d-flex align-items-center gap-2 px-3 py-3 border-bottom border-white border-opacity-10">
+        <img [src]="u.avatar" [alt]="u.name" class="sidebar-user-avatar avatar-sm rounded-circle border border-2 border-primary flex-shrink-0" />
+        <div class="sidebar-user-info min-w-0">
+          <div class="fw-bold text-white small text-truncate">{{ u.name }}</div>
+          <div class="text-white-50" class="text-xs">Administrator</div>
+        </div>
+      </div>
+    }
+
+    <nav class="sidebar-nav flex-grow-1 px-2 py-3 overflow-y-auto">
+      <div class="nav-section-label text-white-50 text-uppercase fw-bold px-3 pt-3 pb-1" class="nav-label">Overview</div>
+      <a class="sidebar-link d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" routerLink="/admin/dashboard" routerLinkActive="active">
+        <i class="fas fa-tachometer-alt text-center" class="sidebar-icon"></i><span>Dashboard</span>
+      </a>
+
+      <div class="nav-section-label text-white-50 text-uppercase fw-bold px-3 pt-3 pb-1" style="font-size: 0.65rem; letter-spacing: 1px;">Management</div>
+      <a class="sidebar-link d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" routerLink="/admin/users" routerLinkActive="active">
+        <i class="fas fa-users text-center" class="sidebar-icon"></i><span>Users</span>
+      </a>
+      <a class="sidebar-link d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" routerLink="/admin/products" routerLinkActive="active">
+        <i class="fas fa-box text-center" class="sidebar-icon"></i><span>Products</span>
+      </a>
+      <a class="sidebar-link d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" routerLink="/admin/categories" routerLinkActive="active">
+        <i class="fas fa-tags text-center" class="sidebar-icon"></i><span>Categories</span>
+      </a>
+      <a class="sidebar-link d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" routerLink="/admin/orders" routerLinkActive="active">
+        <i class="fas fa-shopping-bag text-center" class="sidebar-icon"></i><span>Orders</span>
+      </a>
+      <a class="sidebar-link d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" routerLink="/admin/banners" routerLinkActive="active">
+        <i class="fas fa-image text-center" class="sidebar-icon"></i><span>Banners</span>
+      </a>
+
+      <div class="nav-section-label text-white-50 text-uppercase fw-bold px-3 pt-3 pb-1" style="font-size: 0.65rem; letter-spacing: 1px;">System</div>
+      <a class="sidebar-link d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" routerLink="/home">
+        <i class="fas fa-store text-center" class="sidebar-icon"></i><span>View Store</span>
+      </a>
+      <a class="sidebar-link text-danger-hover d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" (click)="logout()">
+        <i class="fas fa-sign-out-alt text-center" class="sidebar-icon"></i><span>Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <div class="admin-main d-flex flex-column">
+    <header class="admin-topbar navbar bg-white border-bottom shadow-sm px-4 py-2 sticky-top d-flex align-items-center">
+      <button class="btn btn-link text-dark p-0 d-lg-none" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <a routerLink="/home" class="btn btn-sm btn-outline-secondary">
+          <i class="fas fa-external-link-alt me-1"></i>View Store
+        </a>
+        @if (user(); as u) {
+          <img [src]="u.avatar" [alt]="u.name" class="rounded-circle border border-2 border-primary avatar-sm" />
+        }
+      </div>
+    </header>
+    <div class="admin-content p-4">
+      <router-outlet />
+    </div>
+  </div>
+</div>

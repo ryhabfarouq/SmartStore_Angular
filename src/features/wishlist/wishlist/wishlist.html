@@ -1,0 +1,94 @@
+<div class="wishlist-page py-5 pt-navbar-offset">
+  <div class="container">
+
+    <div class="mb-5 text-center text-md-start">
+      <h2 class="fw-bold text-dark mb-1">My Wishlist</h2>
+      <p class="text-muted small mb-0">Products you've saved to buy later</p>
+    </div>
+
+    @if (isLoading()) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <div class="text-muted mt-3">Loading your wishlist...</div>
+      </div>
+    } @else {
+      @if (isEmpty()) {
+        <div class="card border-0 shadow-sm rounded-4 text-center py-5 px-4 animate-fade-in mx-auto" class="mw-500">
+          <div class="text-danger mb-4"><i class="fas fa-heart fa-4x animate-pulse"></i></div>
+          <h4 class="fw-bold">Your Wishlist is Empty</h4>
+          <p class="text-muted small mb-4">Explore our collections and add products you love to your wishlist!</p>
+          <a routerLink="/products" class="btn btn-primary rounded-pill px-5 py-2.5 fw-semibold shadow-sm">
+            Browse Products
+          </a>
+        </div>
+      } @else {
+
+        <div class="row g-4">
+          @for (item of wishlistWithProducts(); track item.id) {
+            @if (item.product; as p) {
+              <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 wishlist-card position-relative bg-white d-flex flex-column">
+
+                  <button 
+                    (click)="removeItem(item)" 
+                    [disabled]="isActionLoading() === item.id"
+                    class="btn btn-light rounded-circle shadow-sm position-absolute d-flex align-items-center justify-content-center p-0 remove-btn wishlist-remove-btn"
+                    title="Remove from wishlist"
+                  >
+                    <i class="fas fa-times text-danger"></i>
+                  </button>
+
+                  <div class="p-3 d-flex align-items-center justify-content-center border-bottom bg-light cursor-pointer wishlist-img-wrap" [routerLink]="['/products', p.id]">
+                    <img [src]="p.thumbnail" [alt]="p.title" class="product-img" />
+                    @if (p.discountPercentage > 0) {
+                      <span class="badge bg-danger position-absolute top-0 start-0 m-3 rounded-pill px-2.5 py-1.5 fw-bold">
+                        -{{ p.discountPercentage }}%
+                      </span>
+                    }
+                  </div>
+
+                  <div class="p-3 d-flex flex-column flex-grow-1">
+                    <span class="text-uppercase text-muted fw-bold mb-1 d-block" class="text-xs">{{ p.brand }}</span>
+                    <h6 class="fw-semibold text-dark mb-2 cursor-pointer wishlist-title" [routerLink]="['/products', p.id]">{{ p.title }}</h6>
+
+                    <div class="mt-auto">
+
+                      <div class="d-flex align-items-center gap-2 mb-3">
+                        @if (p.discountPercentage > 0) {
+                          <span class="fw-bold text-primary fs-5">{{ getDiscountedPrice(p) | currency }}</span>
+                          <span class="text-muted text-decoration-line-through small">{{ p.price | currency }}</span>
+                        } @else {
+                          <span class="fw-bold text-primary fs-5">{{ p.price | currency }}</span>
+                        }
+                      </div>
+
+                      <div class="mb-3">
+                        <span class="status-badge" [class.status-in-stock]="p.stock > 0" [class.status-cancelled]="p.stock === 0">
+                          {{ p.stock > 0 ? 'In Stock' : 'Out of Stock' }}
+                        </span>
+                      </div>
+
+                      <button 
+                        (click)="moveToCart(item)"
+                        [disabled]="isActionLoading() === item.id || p.stock === 0"
+                        class="btn btn-primary rounded-pill w-100 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2"
+                      >
+                        @if (isActionLoading() === item.id) {
+                          <span class="spinner-border spinner-border-sm" role="status"></span>
+                          Processing...
+                        } @else {
+                          <i class="fas fa-shopping-cart small"></i>Move to Cart
+                        }
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            }
+          }
+        </div>
+      }
+    }
+  </div>
+</div>

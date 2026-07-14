@@ -1,0 +1,19 @@
+
+.product-main-img {
+  transition: transform 0.3s ease;
+}
+
+.ratio:hover .product-main-img {
+  transform: scale(1.05);
+}
+
+.overflow-auto {
+  scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(108, 92, 231, 0.25);
+    border-radius: 10px;
+  }
+}

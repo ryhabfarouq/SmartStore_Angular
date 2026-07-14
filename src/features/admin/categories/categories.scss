@@ -1,0 +1,26 @@
+.admin-categories-page {
+  animation: fadeInUp 0.4s ease forwards;
+
+  .icon-preview-box {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+  }
+
+  .action-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}

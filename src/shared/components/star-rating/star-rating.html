@@ -1,0 +1,13 @@
+<div class="star-rating d-flex align-items-center gap-1">
+  @for (star of stars; track $index) {
+    <i
+      class="fa-star text-warning"
+      [class.fas]="star.filled"
+      [class.fa-star-half-alt]="star.half && !star.filled"
+      [class.far]="!star.filled && !star.half"
+    ></i>
+  }
+  @if (showCount) {
+    <span class="rating-count text-muted small ms-1">({{ count }})</span>
+  }
+</div>

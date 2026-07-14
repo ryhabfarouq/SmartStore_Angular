@@ -1,0 +1,52 @@
+.hover-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(108, 92, 231, 0.1) !important;
+  }
+}
+
+.quick-link-item {
+  transition: all 0.2s ease;
+  .quick-link-arrow {
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  &:hover {
+    .quick-link-arrow {
+      transform: translateX(4px);
+      color: var(--color-primary) !important;
+    }
+  }
+}
+
+.skeleton-card {
+  pointer-events: none;
+}
+
+.skeleton-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-text {
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.btn-xs {
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  border-radius: 6px;
+}

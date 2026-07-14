@@ -1,0 +1,53 @@
+<app-loading-spinner />
+<div class="seller-wrapper">
+
+  <aside class="seller-sidebar d-flex flex-column">
+    <div class="sidebar-header d-flex align-items-center px-3 py-4 border-bottom border-white border-opacity-10">
+      <a routerLink="/home" class="sidebar-brand text-white text-decoration-none fs-5 fw-bold">
+        <i class="fas fa-store me-2 text-white"></i>Seller Hub
+      </a>
+    </div>
+    @if (user) {
+      <div class="sidebar-user d-flex align-items-center gap-2 px-3 py-3 border-bottom border-white border-opacity-10">
+        <img [src]="user.avatar" [alt]="user.name" class="avatar-sm rounded-circle border border-2 border-white border-opacity-50 flex-shrink-0" />
+        <div class="min-w-0">
+          <div class="fw-bold text-white small text-truncate">{{ user.name }}</div>
+          <div class="badge bg-white bg-opacity-20 text-white small">Seller</div>
+        </div>
+      </div>
+    }
+    <nav class="sidebar-nav flex-grow-1 px-2 py-3 overflow-y-auto">
+      <a class="sidebar-link d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" routerLink="/seller/dashboard" routerLinkActive="active">
+        <i class="fas fa-chart-line text-center" class="sidebar-icon"></i><span>Dashboard</span>
+      </a>
+      <a class="sidebar-link d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" routerLink="/seller/products" routerLinkActive="active">
+        <i class="fas fa-box text-center" class="sidebar-icon"></i><span>My Products</span>
+      </a>
+      <a class="sidebar-link d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" routerLink="/seller/inventory" routerLinkActive="active">
+        <i class="fas fa-warehouse text-center" class="sidebar-icon"></i><span>Inventory</span>
+      </a>
+      <hr class="border-white border-opacity-10 my-2" />
+      <a class="sidebar-link d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" routerLink="/home">
+        <i class="fas fa-store text-center" class="sidebar-icon"></i><span>View Store</span>
+      </a>
+      <a class="sidebar-link text-danger-link d-flex align-items-center gap-3 px-3 py-2 rounded text-white-50 text-decoration-none small transition-all mb-1" (click)="logout()">
+        <i class="fas fa-sign-out-alt text-center" class="sidebar-icon"></i><span>Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <div class="seller-main d-flex flex-column">
+    <header class="seller-topbar navbar bg-white border-bottom shadow-sm px-4 py-2 sticky-top d-flex align-items-center">
+      <span class="fw-semibold text-muted">Seller Dashboard</span>
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <a routerLink="/home" class="btn btn-sm btn-outline-secondary">View Store</a>
+        @if (user) { 
+          <img [src]="user.avatar" class="avatar-sm rounded-circle border border-2 border-success" [alt]="user.name" /> 
+        }
+      </div>
+    </header>
+    <div class="seller-content p-4">
+      <router-outlet />
+    </div>
+  </div>
+</div>

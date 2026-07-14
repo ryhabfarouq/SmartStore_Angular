@@ -1,0 +1,232 @@
+<div class="admin-banners-page py-4">
+  <div class="container-fluid px-md-4">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+      <div>
+        <h2 class="fw-bold mb-1 text-dark">Promotional Banner Management</h2>
+        <p class="text-muted small mb-0">Control the hero image slider on the home page catalog</p>
+      </div>
+      <div>
+        <button (click)="openAddModal()" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm d-flex align-items-center gap-2">
+          <i class="fas fa-plus"></i>Add New Banner
+        </button>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm p-3 rounded-4 mb-4 bg-white">
+      <div class="input-group search-input">
+        <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-search"></i></span>
+        <input type="text" class="form-control border-start-0 py-2" placeholder="Search banners by title or subtitle..." (input)="searchQuery.set(searchVal.value)" #searchVal />
+      </div>
+    </div>
+
+    @if (isLoading()) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <div class="text-muted mt-2 small">Loading banners...</div>
+      </div>
+    } @else {
+      @if (sortedBanners().length === 0) {
+        <div class="card border-0 shadow-sm rounded-4 text-center py-5 px-4 bg-white mb-4">
+          <div class="text-muted mb-3"><i class="fas fa-images fa-3x"></i></div>
+          <h4 class="fw-bold">No Banners Configured</h4>
+          <p class="text-muted small">Add a banner to display promotional slides on the store front-page.</p>
+        </div>
+      } @else {
+
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-5">
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead class="bg-light text-dark small fw-semibold">
+                <tr>
+                  <th class="ps-4" style="width: 100px;">Sort Order</th>
+                  <th>Image & Background</th>
+                  <th>Banner Content</th>
+                  <th>CTA Button</th>
+                  <th class="text-center">Active Status</th>
+                  <th class="pe-4 text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (b of sortedBanners(); track b.id) {
+                  <tr>
+                    <td class="ps-4">
+                      <span class="badge bg-secondary-subtle text-secondary rounded-pill px-3 py-1.5 fw-bold">#{{ b.order }}</span>
+                    </td>
+                    <td>
+                      <div class="banner-preview-img rounded-3 border overflow-hidden position-relative" [style.background]="b.gradient">
+                        <img [src]="b.image" class="w-100 h-100 object-fit-cover opacity-75" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="fw-bold text-dark fs-6">{{ b.title }}</div>
+                      <div class="text-muted small">{{ b.subtitle }}</div>
+                    </td>
+                    <td>
+                      <span class="badge bg-primary text-white rounded px-2.5 py-1.5 small">{{ b.ctaText }}</span>
+                      <code class="d-block text-muted small mt-1">{{ b.ctaLink }}</code>
+                    </td>
+                    <td class="text-center">
+                      <div class="form-check form-switch d-inline-block">
+                        <input 
+                          class="form-check-input status-toggle-switch cursor-pointer" 
+                          type="checkbox" 
+                          [checked]="b.isActive" 
+                          (change)="toggleActive(b)" 
+                          role="switch" 
+                          id="activeSwitch-{{b.id}}"
+                        />
+                        <label class="form-check-label ms-1.5 small" [class.text-success]="b.isActive" [class.text-muted]="!b.isActive" for="activeSwitch-{{b.id}}">
+                          {{ b.isActive ? 'Active' : 'Inactive' }}
+                        </label>
+                      </div>
+                    </td>
+                    <td class="pe-4 text-end">
+                      <div class="d-inline-flex gap-2">
+                        <button (click)="openEditModal(b)" class="btn btn-sm btn-outline-primary rounded-circle action-btn" title="Edit">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button (click)="openDeleteModal(b)" class="btn btn-sm btn-outline-danger rounded-circle action-btn" title="Delete">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h4 class="fw-bold mb-3 text-dark">Interactive Slider Mockups</h4>
+        <div class="row g-4">
+          @for (b of sortedBanners(); track b.id) {
+            <div class="col-md-6 col-lg-4">
+              <div class="card border-0 shadow-sm rounded-4 overflow-hidden visual-preview-card h-100 position-relative" [style.background]="b.gradient">
+
+                <div class="preview-overlay-bg" [style.background-image]="'url(' + b.image + ')'"></div>
+                <div class="card-body p-4 d-flex flex-column justify-content-between text-white position-relative z-index-2 h-100">
+                  <div class="badge-status-top">
+                    <span class="badge rounded-pill" [class.bg-success]="b.isActive" [class.bg-secondary]="!b.isActive">
+                      {{ b.isActive ? 'Active' : 'Hidden' }}
+                    </span>
+                    <span class="badge bg-dark bg-opacity-50 ms-1.5">Order: #{{ b.order }}</span>
+                  </div>
+                  <div class="mt-4">
+                    <h5 class="fw-extrabold text-white mb-2 line-clamp-2">{{ b.title }}</h5>
+                    <p class="text-white-50 small mb-4 line-clamp-3">{{ b.subtitle }}</p>
+                    <button class="btn btn-light btn-sm rounded-pill px-4 fw-semibold text-primary mt-auto text-uppercase">
+                      {{ b.ctaText }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
+
+    @if (showModal()) {
+      <div class="modal fade show d-block" tabindex="-1" role="dialog" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content border-0 shadow-lg rounded-4 bg-white">
+            <div class="modal-header border-0 pb-0">
+              <h5 class="modal-title fw-bold">{{ editingBanner() ? 'Edit Banner Configuration' : 'Create New Banner Slide' }}</h5>
+              <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+
+            <form [formGroup]="bannerForm" (ngSubmit)="submitBanner()">
+              <div class="modal-body py-4">
+                <div class="row g-3">
+
+                  <div class="col-md-12">
+                    <label class="form-label fw-semibold">Banner Heading</label>
+                    <input type="text" class="form-control rounded-3" formControlName="title" [class.is-invalid]="isFieldInvalid('title')" placeholder="e.g. Upgrade Your Living Space" />
+                    <div class="invalid-feedback">A heading of at least 3 characters is required.</div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <label class="form-label fw-semibold">Subheading / Description</label>
+                    <textarea class="form-control rounded-3" rows="2" formControlName="subtitle" [class.is-invalid]="isFieldInvalid('subtitle')" placeholder="e.g. Save up to 30% on the latest smart home automation appliances today."></textarea>
+                    <div class="invalid-feedback">Subheading description is required.</div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold">CTA Button Label</label>
+                    <input type="text" class="form-control rounded-3" formControlName="ctaText" [class.is-invalid]="isFieldInvalid('ctaText')" placeholder="Shop Now" />
+                    <div class="invalid-feedback">Button label is required.</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold">CTA Button Target Link</label>
+                    <input type="text" class="form-control rounded-3" formControlName="ctaLink" [class.is-invalid]="isFieldInvalid('ctaLink')" placeholder="/products?categoryId=2" />
+                    <div class="invalid-feedback">Target link is required.</div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <label class="form-label fw-semibold">Promo Image URL</label>
+                    <input type="text" class="form-control rounded-3" formControlName="image" [class.is-invalid]="isFieldInvalid('image')" placeholder="https://example.com/banner.png" />
+                    <div class="invalid-feedback">Promo image URL is required.</div>
+                  </div>
+
+                  <div class="col-md-8">
+                    <label class="form-label fw-semibold">Background CSS Gradient</label>
+                    <input type="text" class="form-control rounded-3" formControlName="gradient" [class.is-invalid]="isFieldInvalid('gradient')" placeholder="linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%)" />
+                    <div class="invalid-feedback">Background gradient code is required.</div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label class="form-label fw-semibold">Slider Sort Order</label>
+                    <input type="number" class="form-control rounded-3" formControlName="order" [class.is-invalid]="isFieldInvalid('order')" placeholder="1" />
+                    <div class="invalid-feedback">Valid order number (minimum 1) is required.</div>
+                  </div>
+
+                  <div class="col-md-12 mt-4">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input cursor-pointer" type="checkbox" formControlName="isActive" id="modalActiveSwitch" />
+                      <label class="form-check-label fw-semibold" for="modalActiveSwitch">Publish slider immediately</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" (click)="closeModal()">Cancel</button>
+                <button type="submit" [disabled]="isSubmitting()" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2">
+                  @if (isSubmitting()) {
+                    <span class="spinner-border spinner-border-sm"></span>
+                    Saving...
+                  } @else {
+                    <i class="fas fa-save"></i>Save Banner
+                  }
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (showDeleteModal()) {
+      <div class="modal fade show d-block" tabindex="-1" role="dialog" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content border-0 shadow-lg rounded-4 bg-white">
+            <div class="modal-header border-0 pb-0">
+              <h5 class="modal-title fw-bold">Delete Banner?</h5>
+              <button type="button" class="btn-close" (click)="closeDeleteModal()"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+              <i class="fas fa-exclamation-triangle text-danger fa-3x mb-3 animate-pulse"></i>
+              <p class="mb-0">Are you sure you want to permanently delete banner <strong>{{ deletingBanner()?.title }}</strong>?</p>
+              <span class="text-muted small">This action cannot be undone.</span>
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+              <button type="button" class="btn btn-outline-secondary rounded-pill px-4" (click)="closeDeleteModal()">Cancel</button>
+              <button type="button" class="btn btn-danger rounded-pill px-4" (click)="confirmDelete()">Delete Banner</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

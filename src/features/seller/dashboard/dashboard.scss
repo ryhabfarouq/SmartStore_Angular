@@ -1,0 +1,24 @@
+.seller-dashboard {
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+.dash-welcome {
+  border-radius: 10px !important;
+}
+
+.dash-store-cover {
+  height: 70px;
+  background: #1a1737;
+}
+
+.dash-store-logo-wrap {
+  margin-top: -28px;
+}
+
+.quick-action-btn {
+  transition: border-color 0.15s, background 0.15s;
+  &:hover {
+    background: #f0f2f8 !important;
+    border-color: #c5cde3 !important;
+  }
+}

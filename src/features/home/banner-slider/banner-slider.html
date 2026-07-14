@@ -1,0 +1,144 @@
+<div
+  class="banner-slider position-relative w-100 overflow-hidden"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
+  @if (banners.length > 0) {
+    <div class="slides-container position-relative w-100 h-100">
+      @for (banner of banners; track banner.id; let index = $index) {
+        <div
+          class="slide position-absolute top-0 start-0 w-100 h-100"
+          [class.active]="index === currentIndex()"
+        >
+          <div class="ambient-glow ambient-glow-top position-absolute rounded-circle"></div>
+
+          <div class="ambient-glow ambient-glow-bottom position-absolute rounded-circle"></div>
+
+          <div class="container h-100 position-relative slide-container">
+            <div class="row align-items-center h-100 gy-5">
+              <!-- CONTENT -->
+              <div class="col-lg-6">
+                <div class="content-inner">
+                  <div
+                    class="collection-badge d-inline-flex align-items-center gap-2 rounded-pill px-3 py-2 mb-4"
+                  >
+                    <i class="fas fa-bolt"></i>
+
+                    <span>New Collection</span>
+                  </div>
+
+                  <h1 class="banner-title fw-black mb-4">
+                    {{ banner.title }}
+                  </h1>
+
+                  <p class="banner-subtitle mb-4">
+                    {{ banner.subtitle }}
+                  </p>
+
+                  <div class="d-flex flex-wrap align-items-center gap-3">
+                    @if (banner.ctaText && banner.ctaLink) {
+                      <a
+                        (click)="navigateToBanner(banner.ctaLink)"
+                        class="shop-btn btn rounded-pill"
+                      >
+                        {{ banner.ctaText }}
+
+                        <i class="fas fa-arrow-right"></i>
+                      </a>
+                    }
+
+                    <a
+                      routerLink="/products"
+                      class="browse-btn btn rounded-pill px-4 py-3 fw-semibold"
+                    >
+                      Browse All
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- IMAGE -->
+              <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center">
+                <div class="product-visual position-relative">
+                  <div
+                    class="product-circle position-absolute top-50 start-50 translate-middle rounded-circle"
+                  ></div>
+
+                  <div
+                    class="product-ring position-absolute top-50 start-50 translate-middle rounded-circle"
+                  ></div>
+
+                  <div class="floating-label position-absolute">
+                    <span class="d-block">Smart Store</span>
+                    <strong>Premium Pick</strong>
+                  </div>
+
+                  <img
+                    [src]="banner.image"
+                    [alt]="banner.title"
+                    class="banner-image position-relative"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (banners.length > 1) {
+      <!-- PREVIOUS -->
+      <button
+        class="slider-arrow slider-arrow-left position-absolute rounded-circle d-flex align-items-center justify-content-center"
+        (click)="prev()"
+        aria-label="Previous slide"
+      >
+        <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <!-- NEXT -->
+      <button
+        class="slider-arrow slider-arrow-right position-absolute rounded-circle d-flex align-items-center justify-content-center"
+        (click)="next()"
+        aria-label="Next slide"
+      >
+        <i class="fas fa-chevron-right"></i>
+      </button>
+
+      <!-- INDICATORS -->
+      <div class="slider-indicators position-absolute d-flex align-items-center gap-2">
+        @for (banner of banners; track banner.id; let index = $index) {
+          <button
+            class="indicator border-0 p-0 rounded-pill"
+            [class.active]="index === currentIndex()"
+            (click)="goToSlide(index)"
+            [attr.aria-label]="'Go to slide ' + (index + 1)"
+          ></button>
+        }
+      </div>
+
+      <!-- COUNTER -->
+      <div class="slide-counter position-absolute">
+        <strong>{{ currentIndex() + 1 }}</strong>
+
+        <span>/</span>
+
+        <span>{{ banners.length }}</span>
+      </div>
+    }
+  } @else {
+    <div class="fallback-slide d-flex align-items-center justify-content-center h-100">
+      <div class="text-center">
+        <h1 class="fw-black mb-3">Discover Amazing Products</h1>
+
+        <p class="text-secondary mb-4">Shop the latest trends with unbeatable prices.</p>
+
+        <a routerLink="/products" class="shop-btn btn rounded-pill px-5 py-3 fw-bold">
+          Shop Now
+
+          <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+  }
+</div>

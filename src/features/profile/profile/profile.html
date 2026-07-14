@@ -1,0 +1,179 @@
+<div class="profile-page py-5 pt-navbar-offset">
+  <div class="container">
+    @if (currentUser(); as user) {
+      <div class="row g-4">
+
+        <div class="col-lg-4">
+
+          <div class="card border-0 shadow-sm p-4 rounded-4 text-center mb-4 bg-white">
+            <div class="position-relative d-inline-block mx-auto mb-3">
+              <img [src]="user.avatar" [alt]="user.name" class="profile-avatar rounded-circle border border-4 border-white shadow" />
+              <button (click)="changeAvatarMock()" class="btn btn-primary edit-avatar-btn shadow-sm" title="Edit Avatar">
+                <i class="fas fa-camera small"></i>
+              </button>
+            </div>
+            <h4 class="fw-bold mb-1 text-dark">{{ user.name }}</h4>
+            <span class="badge text-uppercase bg-primary-soft text-primary px-3 py-1.5 rounded-pill small mb-4">
+              {{ user.role }}
+            </span>
+            <div class="text-muted small">Member since {{ user.createdAt | date:'longDate' }}</div>
+          </div>
+
+          <div class="card border-0 shadow-sm p-4 wallet-card text-white mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-white-50 small fw-bold text-uppercase">My Wallet Balance</span>
+              <i class="fas fa-wallet"></i>
+            </div>
+            <h2 class="fw-bold mb-0 fs-2">{{ user.wallet | currency }}</h2>
+            <div class="text-white-50 small mt-2">Available at checkout</div>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+            <div class="card-header bg-white border-bottom p-0">
+              <ul class="nav nav-tabs border-0 flex-row">
+                <li class="nav-item m-0">
+                  <button 
+                    (click)="activeTab.set('profile')" 
+                    class="nav-link border-0 px-4 py-3 fw-bold position-relative text-uppercase fs-7"
+                    [class.active]="activeTab() === 'profile'"
+                  >
+                    <i class="fas fa-user-edit me-2"></i>My Profile
+                  </button>
+                </li>
+                <li class="nav-item m-0">
+                  <button 
+                    (click)="activeTab.set('security')" 
+                    class="nav-link border-0 px-4 py-3 fw-bold position-relative text-uppercase fs-7"
+                    [class.active]="activeTab() === 'security'"
+                  >
+                    <i class="fas fa-shield-alt me-2"></i>Security Settings
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div class="card-body p-4 p-md-5">
+
+              @if (activeTab() === 'profile') {
+                <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+
+                  <h5 class="fw-bold mb-4 text-dark border-start border-4 border-primary ps-3">Personal Details</h5>
+                  <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold">Full Name</label>
+                      <input type="text" class="form-control rounded-3" formControlName="name" [class.is-invalid]="isFieldInvalid(profileForm, 'name')" />
+                      <div class="invalid-feedback">Full name is required (min 3 chars).</div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold">Email Address</label>
+                      <input type="email" class="form-control rounded-3 bg-light text-muted" formControlName="email" />
+                      <span class="text-muted small">Registered email address cannot be changed.</span>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold">Phone Number</label>
+                      <input type="text" class="form-control rounded-3" formControlName="phone" [class.is-invalid]="isFieldInvalid(profileForm, 'phone')" placeholder="e.g. +1 (555) 123-4567" />
+                      <div class="invalid-feedback">Phone number is required.</div>
+                    </div>
+                  </div>
+
+                  <h5 class="fw-bold mb-4 text-dark border-start border-4 border-primary ps-3">Delivery Address</h5>
+                  <div class="row g-3 mb-4">
+                    <div class="col-12">
+                      <label class="form-label fw-semibold">Street Address</label>
+                      <input type="text" class="form-control rounded-3" formControlName="street" [class.is-invalid]="isFieldInvalid(profileForm, 'street')" placeholder="123 Main St, Apt 4B" />
+                      <div class="invalid-feedback">Street address is required.</div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold">City</label>
+                      <input type="text" class="form-control rounded-3" formControlName="city" [class.is-invalid]="isFieldInvalid(profileForm, 'city')" />
+                      <div class="invalid-feedback">City is required.</div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold">State / Region</label>
+                      <input type="text" class="form-control rounded-3" formControlName="state" [class.is-invalid]="isFieldInvalid(profileForm, 'state')" />
+                      <div class="invalid-feedback">State/Region is required.</div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold">Zip / Postal Code</label>
+                      <input type="text" class="form-control rounded-3" formControlName="zip" [class.is-invalid]="isFieldInvalid(profileForm, 'zip')" />
+                      <div class="invalid-feedback">Zip/Postal code is required.</div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold">Country</label>
+                      <input type="text" class="form-control rounded-3" formControlName="country" [class.is-invalid]="isFieldInvalid(profileForm, 'country')" />
+                      <div class="invalid-feedback">Country is required.</div>
+                    </div>
+                  </div>
+
+                  <div class="text-end border-top pt-4">
+                    <button 
+                      type="submit" 
+                      [disabled]="isSubmittingProfile()" 
+                      class="btn btn-primary rounded-pill px-5 py-2.5 fw-semibold d-flex align-items-center gap-2 shadow-sm ms-auto"
+                    >
+                      @if (isSubmittingProfile()) {
+                        <span class="spinner-border spinner-border-sm" role="status"></span>
+                        Saving Details...
+                      } @else {
+                        <i class="fas fa-save"></i>Save Changes
+                      }
+                    </button>
+                  </div>
+                </form>
+              }
+
+              @if (activeTab() === 'security') {
+                <form [formGroup]="securityForm" (ngSubmit)="saveSecurity()">
+                  <h5 class="fw-bold mb-4 text-dark border-start border-4 border-primary ps-3">Update Password</h5>
+
+                  <div class="row g-3 mb-4">
+                    <div class="col-md-12">
+                      <label class="form-label fw-semibold">Current Password</label>
+                      <input type="password" class="form-control rounded-3" formControlName="currentPassword" [class.is-invalid]="isFieldInvalid(securityForm, 'currentPassword')" />
+                      <div class="invalid-feedback">Current password is required.</div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold">New Password</label>
+                      <input type="password" class="form-control rounded-3" formControlName="newPassword" [class.is-invalid]="isFieldInvalid(securityForm, 'newPassword')" />
+                      <div class="invalid-feedback">New password must be at least 8 characters.</div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold">Confirm New Password</label>
+                      <input type="password" class="form-control rounded-3" formControlName="confirmNewPassword" [class.is-invalid]="isFieldInvalid(securityForm, 'confirmNewPassword') || (securityForm.errors?.['mismatch'] && securityForm.get('confirmNewPassword')?.touched)" />
+                      <div class="invalid-feedback">
+                        @if (securityForm.get('confirmNewPassword')?.hasError('required')) {
+                          Confirming your password is required.
+                        } @else if (securityForm.errors?.['mismatch']) {
+                          Passwords do not match.
+                        }
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="text-end border-top pt-4">
+                    <button 
+                      type="submit" 
+                      [disabled]="isSubmittingSecurity()" 
+                      class="btn btn-primary rounded-pill px-5 py-2.5 fw-semibold d-flex align-items-center gap-2 shadow-sm ms-auto"
+                    >
+                      @if (isSubmittingSecurity()) {
+                        <span class="spinner-border spinner-border-sm" role="status"></span>
+                        Updating Password...
+                      } @else {
+                        <i class="fas fa-lock"></i>Change Password
+                      }
+                    </button>
+                  </div>
+                </form>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,116 @@
+<div class="auth-card animate-fade-in">
+  <div class="d-flex d-lg-none justify-content-center align-items-center gap-2 mb-4">
+    <span class="fw-bold fs-4 gradient-text">SmartStore</span>
+  </div>
+
+  <div class="mb-4">
+    <h2 class="fs-3 fw-bold text-white mb-1">Welcome back!</h2>
+    <p class="text-white-50 small mb-0">Sign in to your account to continue</p>
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="mb-3">
+      <label
+        class="form-label fw-semibold text-white-50 small mb-2 d-flex align-items-center"
+        for="email"
+      >
+        <i class="fas fa-envelope me-2 text-primary-light"></i>Email Address
+      </label>
+      <input
+        id="email"
+        type="email"
+        class="form-control"
+        [class.is-invalid]="emailControl?.invalid && emailControl?.touched"
+        [class.is-valid]="emailControl?.valid && emailControl?.touched"
+        formControlName="email"
+        placeholder="you@example.com"
+        autocomplete="email"
+      />
+      @if (emailControl?.touched && emailControl?.errors) {
+        <div class="invalid-feedback">
+          @if (emailControl?.errors?.['required']) {
+            <i class="fas fa-exclamation-circle me-1"></i>Email is required.
+          }
+          @if (emailControl?.errors?.['email']) {
+            <i class="fas fa-exclamation-circle me-1"></i>Please enter a valid email address.
+          }
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label
+        class="form-label fw-semibold text-white-50 small mb-2 d-flex align-items-center"
+        for="password"
+      >
+        <i class="fas fa-lock me-2 text-primary-light"></i>Password
+      </label>
+      <div class="input-group">
+        <input
+          id="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          class="form-control"
+          [class.is-invalid]="passwordControl?.invalid && passwordControl?.touched"
+          [class.is-valid]="passwordControl?.valid && passwordControl?.touched"
+          formControlName="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+        />
+        <button
+          type="button"
+          class="btn btn-outline-secondary border-start-0 text-white-50 px-3"
+          style="border-color: rgba(255, 255, 255, 0.12)"
+          (click)="togglePasswordVisibility()"
+          [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+        >
+          @if (showPassword()) {
+            <i class="fas fa-eye-slash"></i>
+          } @else {
+            <i class="fas fa-eye"></i>
+          }
+        </button>
+      </div>
+      @if (passwordControl?.touched && passwordControl?.errors) {
+        <div class="invalid-feedback d-block">
+          @if (passwordControl?.errors?.['required']) {
+            <i class="fas fa-exclamation-circle me-1"></i>Password is required.
+          }
+          @if (passwordControl?.errors?.['minlength']) {
+            <i class="fas fa-exclamation-circle me-1"></i>Password must be at least 6 characters.
+          }
+        </div>
+      }
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          id="rememberMe"
+          formControlName="rememberMe"
+        />
+        <label class="form-check-label text-white-50 small" for="rememberMe"> Remember me </label>
+      </div>
+      <a href="#" class="text-primary-light text-decoration-none small hover-glow"
+        >Forgot password?</a
+      >
+    </div>
+
+    <button type="submit" class=" btn-auth-gradient w-100 fw-bold mb-2 rounded py-2" [disabled]="isLoading()">
+      @if (isLoading()) {
+        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        Signing In...
+      } @else {
+        <i class="fas fa-sign-in-alt me-2"></i>Sign In
+      }
+    </button>
+  </form>
+
+  <p class="text-center text-white-50 small mb-0">
+    Don't have an account?
+    <a routerLink="/auth/register" class="text-primary-light text-decoration-none fw-semibold">
+      Create one free <i class="fas fa-arrow-right ms-1"></i>
+    </a>
+  </p>
+</div>
