@@ -81,7 +81,7 @@ Smart Store provides a complete shopping experience for customers, sellers, and 
   * PayPal
   * Cash on Delivery
   * Wallet
-* Promo codes and discounts *(Bonus)*
+* Promo codes and discounts 
 
 ---
 
@@ -116,8 +116,8 @@ Secure payment gateway integration with services such as:
 Additional payment features:
 
 * Secure checkout process
-* Saved payment cards *(Bonus)*
-* Payment auto-fill for faster checkout *(Bonus)*
+* Saved payment cards 
+* Payment auto-fill for faster checkout 
 
 ---
 
@@ -151,7 +151,7 @@ The Admin Dashboard provides complete management functionality.
 #### Marketing Management
 
 * Manage discounts
-* Manage promo codes *(Bonus)*
+* Manage promo codes 
 * Manage homepage banners
 * Homepage content management
 
@@ -167,10 +167,10 @@ The Admin Dashboard provides complete management functionality.
 * Delete products
 * Inventory management
 * Stock management
-* Order processing *(Bonus)*
-* Order status updates *(Bonus)*
-* Earnings management *(Bonus)*
-* Seller payout management *(Bonus)*
+* Order processing 
+* Order status updates
+* Earnings management
+* Seller payout management 
 
 ---
 
@@ -336,10 +336,8 @@ Unauthorized users are prevented from accessing protected application routes.
 * NgRx state management
 * Real-time order tracking
 * Push notifications
-* AI-powered product recommendations
 * Advanced analytics dashboard
-* Multi-language support
-* Dark mode
+
 
 ---
 
