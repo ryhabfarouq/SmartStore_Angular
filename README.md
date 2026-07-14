@@ -1,59 +1,360 @@
-# Ecommerce
+# 🛒 Smart Store — Angular E-Commerce Platform
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.9.
+A modern and responsive **E-Commerce Web Application** built with **Angular**, **Bootstrap**, and **SCSS**.
 
-## Development server
+Smart Store provides a complete shopping experience for customers, sellers, and administrators. The project uses **JSON Server** as a mock REST API for development and testing.
 
-To start a local development server, run:
+---
+
+## 🚀 Technologies Used
+
+* Angular
+* TypeScript
+* Bootstrap
+* SCSS
+* RxJS
+* Angular Router
+* Angular Reactive Forms
+* JSON Server
+* REST API
+* Local Storage / Session Storage
+
+---
+
+## ✨ Features
+
+### 👤 User Management
+
+* User registration and login
+* Login using:
+
+  * Email
+  * Phone number
+  * Google authentication *(Bonus)*
+* Email confirmation
+* User profile management
+
+  * Name
+  * Address
+  * Payment details
+  * Personal information
+* Multi-user role system:
+
+  * Customer
+  * Seller
+  * Admin
+* Wishlist and favorites
+* Order history
+* Product reviews and ratings
+
+---
+
+### 📦 Product Management
+
+* Product categories
+* Product listings
+* Product images
+* Detailed product descriptions
+* Product pricing
+* Stock availability
+* Search products by name
+* Advanced product filtering:
+
+  * Price
+  * Category
+  * Availability
+* Responsive product catalog
+
+---
+
+### 🛒 Shopping Cart & Checkout
+
+* Add products to cart
+* Remove products from cart
+* Adjust product quantities
+* Dynamic order summary
+* Price breakdown
+* Guest checkout
+* Multiple payment methods:
+
+  * Credit Card
+  * PayPal
+  * Cash on Delivery
+  * Wallet
+* Promo codes and discounts *(Bonus)*
+
+---
+
+### 📋 Order Management
+
+* Order placement
+* Order confirmation
+* Order history
+* Order tracking
+* Dynamic order status updates
+* Email order notifications
+
+#### Order Status
+
+* Pending
+* Confirmed
+* Processing
+* Shipped
+* Delivered
+* Cancelled
+
+---
+
+### 💳 Payment Integration
+
+Secure payment gateway integration with services such as:
+
+* Stripe
+* PayPal
+* Razorpay
+
+Additional payment features:
+
+* Secure checkout process
+* Saved payment cards *(Bonus)*
+* Payment auto-fill for faster checkout *(Bonus)*
+
+---
+
+### 🛡️ Admin Panel
+
+The Admin Dashboard provides complete management functionality.
+
+#### User Management
+
+* View users
+* Approve users
+* Restrict users
+* Soft delete users
+* Manage user roles
+
+#### Product Management
+
+* Add products
+* Update products
+* Delete products
+* Manage product stock
+* Manage categories
+
+#### Order Management
+
+* View all orders
+* Manage orders
+* Update order status
+* Shipping management
+
+#### Marketing Management
+
+* Manage discounts
+* Manage promo codes *(Bonus)*
+* Manage homepage banners
+* Homepage content management
+
+---
+
+### 🏪 Seller / Vendor Management
+
+* Seller registration
+* Seller profile setup
+* Product listing management
+* Add new products
+* Update products
+* Delete products
+* Inventory management
+* Stock management
+* Order processing *(Bonus)*
+* Order status updates *(Bonus)*
+* Earnings management *(Bonus)*
+* Seller payout management *(Bonus)*
+
+---
+
+## 👥 User Roles
+
+| Role        | Permissions                                                           |
+| ----------- | --------------------------------------------------------------------- |
+| 👤 Customer | Browse products, manage cart, checkout, wishlist, orders, and reviews |
+| 🏪 Seller   | Manage products, inventory, and seller orders                         |
+| 🛡️ Admin   | Full system management including users, products, orders, and content |
+
+---
+
+## ⚙️ Installation
+
+### 1. Clone the Repository
 
 ```bash
-ng serve
+git clone <repository-url>
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 2. Navigate to the Project
 
 ```bash
-ng generate component component-name
+cd smart-store
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 3. Install Dependencies
 
 ```bash
-ng generate --help
+npm install
 ```
 
-## Building
+---
 
-To build the project run:
+## ▶️ Run the Project
+
+This project uses **JSON Server** as a mock backend API.
+
+Run the Angular application and JSON Server using:
 
 ```bash
-ng build
+npm run dev
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The development server will start the Angular application and the JSON Server.
 
-## Running unit tests
+Open your browser and navigate to:
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
+```text
+http://localhost:4200
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## 🗄️ JSON Server
 
-```bash
-ng e2e
+The project uses JSON Server to simulate a REST API.
+
+It provides mock endpoints for:
+
+* Users
+* Products
+* Categories
+* Orders
+* Cart
+* Wishlist
+* Reviews
+* Sellers
+* Banners
+* Promo Codes
+
+Example API endpoints:
+
+```text
+GET    /products
+GET    /products/:id
+POST   /products
+PUT    /products/:id
+PATCH  /products/:id
+DELETE /products/:id
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## 📁 Project Structure
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```text
+src/
+│
+├── app/
+│   ├── core/
+│   │   ├── guards/
+│   │   ├── interceptors/
+│   │   └── services/
+│   │
+│   ├── shared/
+│   │   ├── components/
+│   │   ├── directives/
+│   │   └── pipes/
+│   │
+│   ├── features/
+│   │   ├── auth/
+│   │   ├── products/
+│   │   ├── cart/
+│   │   ├── checkout/
+│   │   ├── orders/
+│   │   ├── wishlist/
+│   │   ├── admin/
+│   │   └── seller/
+│   │
+│   ├── models/
+│   └── app.routes.ts
+│
+├── assets/
+├── styles/
+└── styles.scss
+```
+
+---
+
+## 🎨 UI & Styling
+
+The application UI is built using:
+
+* Bootstrap
+* SCSS
+* Responsive Grid System
+* Bootstrap Components
+* Custom SCSS Components
+* Mobile-first responsive design
+
+The application is fully responsive and optimized for:
+
+* 📱 Mobile devices
+* 📟 Tablets
+* 💻 Laptops
+* 🖥️ Desktop screens
+
+---
+
+## 🔐 Authentication & Authorization
+
+The application supports role-based authentication and authorization.
+
+Angular Guards are used to protect routes based on user roles.
+
+```text
+Customer → Customer Routes
+Seller   → Seller Dashboard
+Admin    → Admin Dashboard
+```
+
+Unauthorized users are prevented from accessing protected application routes.
+
+---
+
+## 🌟 Future Improvements
+
+* Real backend integration
+* JWT authentication
+* Angular SSR
+* NgRx state management
+* Real-time order tracking
+* Push notifications
+* AI-powered product recommendations
+* Advanced analytics dashboard
+* Multi-language support
+* Dark mode
+
+---
+
+## 👩‍💻 Author
+
+**Ryhab Farouq**
+
+Frontend Developer & Web Development Instructor
+
+---
+
+## 📄 License
+
+This project is developed for educational and training purposes.
+
+---
+
+⭐ If you like this project, consider giving the repository a star!
